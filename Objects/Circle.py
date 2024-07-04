@@ -3,9 +3,9 @@ from Point import Point
 
 class Circle(GeometricObject):
 
-    def __init__(self, definingObjects, definingRelation, name = None, isVisible = False):
+    def __init__(self, definingObjects, constructionStrategy, name = None, isVisible = False):
         self.definingObjects = definingObjects
-        self.definingRelation = definingRelation
+        self.constructionStrategy = constructionStrategy
 
         self.center = Point(x = 0, y = 0)
         self.radius = 1
@@ -16,13 +16,22 @@ class Circle(GeometricObject):
         self.name = name
         self.isVisible = isVisible
 
-    
+
     def correctPosition(self):
-        match self.definingRelation:
-            case "center-radius":
-                pass
-            case _:
-                pass
-        
+        if any([not obj.exists() for obj in self.definingObjects]):
+            self.x = None
+            self.y = None
+            self.doesExist = False
+        else:
+            self.center, self.radius = self.constructionStrategy(self.definingObjects)
+            if self.xCoef == None or self.yCoef == None or self.c == None:
+                self.doesExist = False
+            else:
+                self.doesExist = True
+
         return self.childObjects
+
+
+    def exists(self):
+        return self.doesExist
     
