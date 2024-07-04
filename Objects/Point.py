@@ -2,8 +2,8 @@ from Object import GeometricObject
 
 class Point(GeometricObject):
 
-    def __init__(self, x = None, y = None, definingObjects = None, definingRelation = None, name = None):
-            
+    def __init__(self, x = None, y = None, definingObjects = None, definingRelation = None, name = None, isVisible = False):
+
         if not definingObjects:
             self.isFree = True
             self.definingObjects = []
@@ -21,6 +21,7 @@ class Point(GeometricObject):
         
         self.childObjects = []
         self.name = name
+        self.isVisible = isVisible
     
     def getCoordinates(self):
         return self.x, self.y

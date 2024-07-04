@@ -1,13 +1,14 @@
 from Object import GeometricObject
+from Point import Point
 
-class Line(GeometricObject):
+class Circle(GeometricObject):
+
     def __init__(self, definingObjects, definingRelation, name = None, isVisible = False):
         self.definingObjects = definingObjects
         self.definingRelation = definingRelation
 
-        self.xCoef = 1
-        self.yCoef = 1
-        self.c = 0
+        self.center = Point(x = 0, y = 0)
+        self.radius = 1
 
         self.correctPosition()
 
@@ -18,10 +19,10 @@ class Line(GeometricObject):
     
     def correctPosition(self):
         match self.definingRelation:
-            case "lineThroughPoint":
+            case "center-radius":
                 pass
             case _:
                 pass
         
         return self.childObjects
-        
+    
