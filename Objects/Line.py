@@ -46,3 +46,22 @@ class Line(GeometricObject):
 
     def exists(self):
         return self.doesExist
+    
+    def isPointInBoundingBox(self, coordinates):
+        x, y = coordinates
+        lower, upper = self.getBoundaries()
+        lowerx, lowery = lower
+        upperx, uppery = upper
+        if lowerx is not None:
+            if lowerx > x:
+                return False
+        if lowery is not None:
+            if lowery > y:
+                return False
+        if upperx is not None:
+            if upperx < x:
+                return False
+        if uppery is not None:
+            if uppery < y:
+                return False
+        return True

@@ -18,4 +18,8 @@ class PointIntersectionOfTwoLines(ConstructionStrategy):
         if D == 0: # Lines are parallel or concurrent
             return None, None
         
-        return (y2 * c1 - y1 * c2) / D, (x1 * c2 - x2 * c1) / D
+        x,y = (y2 * c1 - y1 * c2) / D, (x1 * c2 - x2 * c1) / D
+        if all([line.isPointInBoundingBox((x, y)) for line in definingObjects]):
+            return x, y
+        return None, None
+            

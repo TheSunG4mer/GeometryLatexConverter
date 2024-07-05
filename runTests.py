@@ -103,6 +103,14 @@ class TestStringMethods(unittest.TestCase):
         X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLines())
         self.assertFalse(X.exists())
 
-
+    def test_shouldOfTooShortLineSegmentsNotExist(self):
+        A = Point(0,0)
+        B = Point(0,5)
+        C = Point(2,4)
+        D = Point(1,1)
+        l1 = Line([A, D], LineThroughTwoPointsConstruction())
+        l2 = Line([B, C], LineSegmentThroughTwoPointsConstruction())
+        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLines())
+        self.assertFalse(X.exists())
 if __name__ == "__main__":
     unittest.main()
