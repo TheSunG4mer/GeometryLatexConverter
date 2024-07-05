@@ -1,7 +1,6 @@
 import unittest
 
 from Objects.Circle import Circle
-from Objects.ConstructionStrategies.PointIntersectionOfTwoLines import PointIntersectionOfTwoLines
 from Objects.Line import Line
 from Objects.Point import Point
 
@@ -9,6 +8,8 @@ from Objects.Point import Point
 from Objects.ConstructionStrategies.LineThroughTwoPointsConstruction import LineThroughTwoPointsConstruction
 from Objects.ConstructionStrategies.LineSegmentThroughTwoPointsConstruction import LineSegmentThroughTwoPointsConstruction
 from Objects.ConstructionStrategies.CircleWithCenterAndRadiusConstruction import CircleWithCenterAndRadiusConstruction
+from Objects.ConstructionStrategies.PointIntersectionOfTwoLines import PointIntersectionOfTwoLinesConstruction
+from Objects.ConstructionStrategies.PointIntersectionOfLineAndCircleConstruction import PointIntersectionOfLineAndCircleConstruction
 
 
 
@@ -80,7 +81,7 @@ class TestStringMethods(unittest.TestCase):
         D = Point(2,2)
         l1 = Line([A, D], LineThroughTwoPointsConstruction())
         l2 = Line([B, C], LineThroughTwoPointsConstruction())
-        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLines())
+        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLinesConstruction())
         self.assertEqual(X.getCoordinates(), (1,1))
 
     def test_shouldIntersectionOfLinesBeRight2(self):
@@ -90,7 +91,7 @@ class TestStringMethods(unittest.TestCase):
         D = Point(1,1)
         l1 = Line([A, D], LineThroughTwoPointsConstruction())
         l2 = Line([B, C], LineThroughTwoPointsConstruction())
-        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLines())
+        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLinesConstruction())
         self.assertEqual(X.getCoordinates(), (10/3,10/3))
 
     def test_shouldParallelLinesHaveNoIntersection(self):
@@ -100,17 +101,30 @@ class TestStringMethods(unittest.TestCase):
         D = Point(0,1)
         l1 = Line([A, D], LineThroughTwoPointsConstruction())
         l2 = Line([B, C], LineThroughTwoPointsConstruction())
-        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLines())
+        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLinesConstruction())
         self.assertFalse(X.exists())
 
-    def test_shouldOfTooShortLineSegmentsNotExist(self):
+    def test_shouldTooShortLineSegmentsNotExistIntersection(self):
         A = Point(0,0)
         B = Point(0,5)
         C = Point(2,4)
         D = Point(1,1)
         l1 = Line([A, D], LineThroughTwoPointsConstruction())
         l2 = Line([B, C], LineSegmentThroughTwoPointsConstruction())
-        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLines())
+        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLinesConstruction())
         self.assertFalse(X.exists())
+
+    def test_shouldGiveCorrectIntersectionBetweenLineAndCircle(self):
+        A = Point(0,0)
+        B = Point(0,1)
+        l = Line([A, B], LineThroughTwoPointsConstruction())
+        c = Circle([A, 2], CircleWithCenterAndRadiusConstruction())
+        X = Point(definingObjects=[l, c, 0], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        #print(X.getCoordinates())
+        self.assertEqual(X.getCoordinates(), (0,2))
+
+
+
+
 if __name__ == "__main__":
     unittest.main()

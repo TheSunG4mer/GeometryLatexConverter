@@ -4,7 +4,7 @@ from Objects.ConstructionStrategies.ConstructionStrategy import ConstructionStra
 from Objects.Line import Line
 
 
-class PointIntersectionOfTwoLines(ConstructionStrategy):
+class PointIntersectionOfTwoLinesConstruction(ConstructionStrategy):
     def constructObject(self, definingObjects):
         line1, line2 = definingObjects
         assert isinstance(line1, Line)
