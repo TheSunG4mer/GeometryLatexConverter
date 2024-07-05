@@ -11,9 +11,13 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(x, 0)
         self.assertEqual(y, 1)
 
-    def test_shouldNewPointExist(self):
+    def test_shouldNewPointFree(self):
         P = Point(3,-2)
         self.assertEqual(P.free(), True)
+
+    def test_shouldNewPointExist(self):
+        P = Point(1,2)
+        self.assertEqual(P.exists(), True)
 
 if __name__ == "__main__":
     unittest.main()
