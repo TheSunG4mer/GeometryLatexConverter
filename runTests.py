@@ -173,7 +173,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(X.getCoordinates(), (1, 0))
         self.assertFalse(Y.exists())
 
-    def test_shouldGiveCorrectIntersectionBetweenLineAndCircle5(self):
+    def test_shouldGiveCorrectIntersectionBetweenLineAndCircle6(self):
         A = Point(1,-1)
         B = Point(-1,0)
         C = Point(-2,-1)
@@ -185,7 +185,10 @@ class TestStringMethods(unittest.TestCase):
         self.assertFalse(X.exists())
         self.assertFalse(Y.exists())
 
-
+    def test_shoulfGiveRightDistance(self):
+        A = Point(0,0)
+        B = Point(3,4)
+        self.assertEqual(A.distanceToPoint(B), 5)
 
 
 
