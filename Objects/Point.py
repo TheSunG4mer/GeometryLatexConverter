@@ -1,4 +1,4 @@
-from Object import GeometricObject
+from Objects.Object import GeometricObject
 
 class Point(GeometricObject):
 
@@ -48,3 +48,6 @@ class Point(GeometricObject):
     
     def exists(self):
         return self.doesExist
+
+    def free(self):
+        return self.isFree

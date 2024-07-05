@@ -1,5 +1,5 @@
-from Object import GeometricObject
-from ConstructionStrategies.ConstructionStrategy import ConstructionStrategy
+from Objects.Object import GeometricObject
+from Objects.ConstructionStrategies.ConstructionStrategy import ConstructionStrategy
 
 
 class Line(GeometricObject):
