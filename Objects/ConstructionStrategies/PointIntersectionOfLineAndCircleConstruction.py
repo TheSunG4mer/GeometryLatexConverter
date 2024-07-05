@@ -1,5 +1,4 @@
 
-import logging
 from Objects.Line import Line
 from Objects.Circle import Circle
 from Objects.ConstructionStrategies.ConstructionStrategy import ConstructionStrategy

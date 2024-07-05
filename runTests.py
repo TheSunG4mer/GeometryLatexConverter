@@ -1,6 +1,7 @@
 import unittest
 
 from Objects.Circle import Circle
+from Objects.ConstructionStrategies.PointAsMidpointConstruction import PointAsMidpointConstruction
 from Objects.Line import Line
 from Objects.Point import Point
 
@@ -202,6 +203,11 @@ class TestStringMethods(unittest.TestCase):
         B = Point(3,4)
         self.assertEqual(A.distanceToPoint(B), 5)
 
+    def test_shouldFindRightMidpoint(self):
+        A = Point(2, 1)
+        B = Point(1, 3)
+        X = Point(definingObjects=[A,B], constructionStrategy=PointAsMidpointConstruction())
+        self.assertEqual(X.getCoordinates(), (3/2, 2))
 
 
 if __name__ == "__main__":
