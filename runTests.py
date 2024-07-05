@@ -1,8 +1,13 @@
 import unittest
 
-from Objects.ConstructionStrategies.LineThroughTwoPointsConstruction import LineThroughTwoPointsConstruction
 from Objects.Line import Line
 from Objects.Point import Point
+
+
+from Objects.ConstructionStrategies.LineThroughTwoPointsConstruction import LineThroughTwoPointsConstruction
+from Objects.ConstructionStrategies.LineSegmentThroughTwoPointsConstruction import LineSegmentThroughTwoPointsConstruction
+
+
 
 
 class TestStringMethods(unittest.TestCase):
@@ -44,7 +49,17 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(c, -11)
         self.assertEqual(boundaries, [[None, None], [None, None]])
 
+    def test_shouldHaveRightBoundaryForLineSegment(self):
+        A = Point(0, 5)
+        B = Point(2, 1)
+        l = Line([A, B], LineSegmentThroughTwoPointsConstruction())
+        xCoef, yCoef, c = l.getCoefficients()
+        boundaries = l.getBoundaries()
 
+        self.assertEqual(xCoef, 2)
+        self.assertEqual(yCoef, 1)
+        self.assertEqual(c, 5)
+        self.assertEqual(boundaries, [[0, 1], [2, 5]])
 
 if __name__ == "__main__":
     unittest.main()
