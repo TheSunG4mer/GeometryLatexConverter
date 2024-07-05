@@ -184,6 +184,18 @@ class TestStringMethods(unittest.TestCase):
         
         self.assertFalse(X.exists())
         self.assertFalse(Y.exists())
+    
+    def test_shouldGiveCorrectIntersectionBetweenLineSegmentAndCircle(self):
+        A = Point(1,-1)
+        B = Point(-1,0)
+        C = Point(-2,1)
+        l = Line([C, B], LineSegmentThroughTwoPointsConstruction())
+        c = Circle([A, 1], CircleWithCenterAndRadiusConstruction())
+        X = Point(definingObjects=[l, c, 0], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        
+        self.assertFalse(X.exists())
+
+
 
     def test_shoulfGiveRightDistance(self):
         A = Point(0,0)

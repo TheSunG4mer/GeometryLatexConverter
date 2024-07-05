@@ -8,11 +8,15 @@ from Objects.ConstructionStrategies.ConstructionStrategy import ConstructionStra
 class PointIntersectionOfLineAndCircleConstruction(ConstructionStrategy):
     def constructObject(self, definingObjects):
         line, circle, number = definingObjects
+        assert isinstance(line, Line)
         assert number in [0,1]
         L = self.findPossibleSolutions(line, circle)
         if len(L) < number + 1:
             return None, None
-        return L[number]
+        x, y =  L[number]
+        if line.isPointInBoundingBox((x, y)):
+            return x, y
+        return None, None
         
 
     
