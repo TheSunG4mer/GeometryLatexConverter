@@ -120,8 +120,71 @@ class TestStringMethods(unittest.TestCase):
         l = Line([A, B], LineThroughTwoPointsConstruction())
         c = Circle([A, 2], CircleWithCenterAndRadiusConstruction())
         X = Point(definingObjects=[l, c, 0], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
-        #print(X.getCoordinates())
+        Y = Point(definingObjects=[l, c, 1], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        
         self.assertEqual(X.getCoordinates(), (0,2))
+        self.assertEqual(Y.getCoordinates(), (0,-2))
+
+    def test_shouldGiveCorrectIntersectionBetweenLineAndCircle2(self):
+        A = Point(0,0)
+        B = Point(2,0)
+        C = Point(2,1)
+        l = Line([C, B], LineThroughTwoPointsConstruction())
+        c = Circle([A, 2], CircleWithCenterAndRadiusConstruction())
+        X = Point(definingObjects=[l, c, 0], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        Y = Point(definingObjects=[l, c, 1], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        
+        self.assertEqual(X.getCoordinates(), (2, 0))
+        self.assertFalse(Y.exists())
+
+    def test_shouldGiveCorrectIntersectionBetweenLineAndCircle3(self):
+        A = Point(0,0)
+        B = Point(3,0)
+        C = Point(3,1)
+        l = Line([C, B], LineThroughTwoPointsConstruction())
+        c = Circle([A, 2], CircleWithCenterAndRadiusConstruction())
+        X = Point(definingObjects=[l, c, 0], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        Y = Point(definingObjects=[l, c, 1], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        
+        self.assertFalse(X.exists())
+        self.assertFalse(Y.exists())
+
+    def test_shouldGiveCorrectIntersectionBetweenLineAndCircle4(self):
+        A = Point(1,-1)
+        B = Point(-1,0)
+        C = Point(-2,1)
+        l = Line([C, B], LineThroughTwoPointsConstruction())
+        c = Circle([A, 1], CircleWithCenterAndRadiusConstruction())
+        X = Point(definingObjects=[l, c, 0], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        Y = Point(definingObjects=[l, c, 1], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        
+        self.assertEqual(X.getCoordinates(), (1, -2))
+        self.assertEqual(Y.getCoordinates(), (0, -1))
+
+    def test_shouldGiveCorrectIntersectionBetweenLineAndCircle5(self):
+        A = Point(1,-1)
+        B = Point(-1,0)
+        C = Point(-2,0)
+        l = Line([C, B], LineThroughTwoPointsConstruction())
+        c = Circle([A, 1], CircleWithCenterAndRadiusConstruction())
+        X = Point(definingObjects=[l, c, 0], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        Y = Point(definingObjects=[l, c, 1], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        
+        self.assertEqual(X.getCoordinates(), (1, 0))
+        self.assertFalse(Y.exists())
+
+    def test_shouldGiveCorrectIntersectionBetweenLineAndCircle5(self):
+        A = Point(1,-1)
+        B = Point(-1,0)
+        C = Point(-2,-1)
+        l = Line([C, B], LineThroughTwoPointsConstruction())
+        c = Circle([A, 1], CircleWithCenterAndRadiusConstruction())
+        X = Point(definingObjects=[l, c, 0], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        Y = Point(definingObjects=[l, c, 1], constructionStrategy=PointIntersectionOfLineAndCircleConstruction())
+        
+        self.assertFalse(X.exists())
+        self.assertFalse(Y.exists())
+
 
 
 
