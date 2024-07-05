@@ -19,7 +19,7 @@ class LineThroughTwoPointsConstruction(ConstructionStrategy):
         deltax, deltay = x2 - x1, y2 - y1
 
         if not deltax: # vertical line
-            return 1, 0, x1
+            return 1, 0, x1, [[None, None], [None, None]]
         
         a = -deltay / deltax
-        return a, 1., y1 + a * x1
+        return a, 1., y1 + a * x1, [[None, None], [None, None]]

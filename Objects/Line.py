@@ -14,6 +14,9 @@ class Line(GeometricObject):
         self.yCoef = 1
         self.c = 0
         self.doesExist = True
+        self.boundaries  = [[None, None], # Used for halflines and line segments
+                            [None, None]] # First list is lower x,y coordinates
+                                          # Second is upper. None is \pm infinity depending on context.
 
         self.childObjects = []
         self.name = name
@@ -27,7 +30,7 @@ class Line(GeometricObject):
             self.y = None
             self.doesExist = False
         else:
-            self.xCoef, self.yCoef, self.c = self.constructionStrategy.constructObject(self.definingObjects)
+            self.xCoef, self.yCoef, self.c, self.boundaries = self.constructionStrategy.constructObject(self.definingObjects)
             if self.xCoef == None or self.yCoef == None or self.c == None:
                 self.doesExist = False
             else:
@@ -37,6 +40,9 @@ class Line(GeometricObject):
         
     def getCoefficients(self):
         return self.xCoef, self.yCoef, self.c
+    
+    def getBoundaries(self):
+        return self.boundaries
 
     def exists(self):
         return self.doesExist
