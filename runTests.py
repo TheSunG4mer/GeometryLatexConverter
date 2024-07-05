@@ -1,6 +1,7 @@
 import unittest
 
 from Objects.Circle import Circle
+from Objects.ConstructionStrategies.PointIntersectionOfTwoLines import PointIntersectionOfTwoLines
 from Objects.Line import Line
 from Objects.Point import Point
 
@@ -71,6 +72,37 @@ class TestStringMethods(unittest.TestCase):
         s = c.getRadius()
         self.assertEqual(Q, P)
         self.assertEqual(s, 3)
+
+    def test_shouldIntersectionOfLinesBeRight(self):
+        A = Point(0,0)
+        B = Point(0,2)
+        C = Point(2,0)
+        D = Point(2,2)
+        l1 = Line([A, D], LineThroughTwoPointsConstruction())
+        l2 = Line([B, C], LineThroughTwoPointsConstruction())
+        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLines())
+        self.assertEqual(X.getCoordinates(), (1,1))
+
+    def test_shouldIntersectionOfLinesBeRight2(self):
+        A = Point(0,0)
+        B = Point(0,5)
+        C = Point(2,4)
+        D = Point(1,1)
+        l1 = Line([A, D], LineThroughTwoPointsConstruction())
+        l2 = Line([B, C], LineThroughTwoPointsConstruction())
+        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLines())
+        self.assertEqual(X.getCoordinates(), (10/3,10/3))
+
+    def test_shouldParallelLinesHaveNoIntersection(self):
+        A = Point(0,0)
+        B = Point(2,3)
+        C = Point(2,4)
+        D = Point(0,1)
+        l1 = Line([A, D], LineThroughTwoPointsConstruction())
+        l2 = Line([B, C], LineThroughTwoPointsConstruction())
+        X = Point(definingObjects=[l1, l2], constructionStrategy=PointIntersectionOfTwoLines())
+        self.assertFalse(X.exists())
+
 
 if __name__ == "__main__":
     unittest.main()

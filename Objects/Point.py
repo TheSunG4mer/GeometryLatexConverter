@@ -1,10 +1,16 @@
+from Objects.ConstructionStrategies.ConstructionStrategy import ConstructionStrategy
 from Objects.Object import GeometricObject
 
 class Point(GeometricObject):
 
     def __init__(self, x = None, y = None, definingObjects = None, 
                 constructionStrategy = None, name = None, isVisible = False):
-
+        
+        self.childObjects = []
+        self.name = name
+        self.isVisible = isVisible
+        
+        
         if not definingObjects:
             self.isFree = True
             self.definingObjects = []
@@ -14,6 +20,7 @@ class Point(GeometricObject):
             self.doesExist = True
 
         else:
+            assert isinstance(constructionStrategy, ConstructionStrategy)
             self.isFree = False
             self.definingObjects = definingObjects
             self.constructionStrategy = constructionStrategy
@@ -22,10 +29,6 @@ class Point(GeometricObject):
             self.doesExist = True
             self.correctPosition()
         
-        self.childObjects = []
-        self.name = name
-        self.isVisible = isVisible
-
 
     def correctPosition(self):
         if any([not obj.exists() for obj in self.definingObjects if isinstance(obj, GeometricObject)]):
@@ -34,7 +37,7 @@ class Point(GeometricObject):
             self.doesExist = False
         else:
             if not self.isFree:
-                self.x, self.y = self.constructionStrategy(self.definingObjects)
+                self.x, self.y = self.constructionStrategy.constructObject(self.definingObjects)
             if self.x == None or self.y == None:
                 self.doesExist = False
             else:
