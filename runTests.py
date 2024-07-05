@@ -1,11 +1,13 @@
 import unittest
 
+from Objects.Circle import Circle
 from Objects.Line import Line
 from Objects.Point import Point
 
 
 from Objects.ConstructionStrategies.LineThroughTwoPointsConstruction import LineThroughTwoPointsConstruction
 from Objects.ConstructionStrategies.LineSegmentThroughTwoPointsConstruction import LineSegmentThroughTwoPointsConstruction
+from Objects.ConstructionStrategies.CircleWithCenterAndRadiusConstruction import CircleWithCenterAndRadiusConstruction
 
 
 
@@ -60,6 +62,15 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(yCoef, 1)
         self.assertEqual(c, 5)
         self.assertEqual(boundaries, [[0, 1], [2, 5]])
+
+    def test_shouldHaveCircleFromCenterAndRadius(self):
+        P = Point(2,4)
+        r = 3
+        c = Circle([P, r], CircleWithCenterAndRadiusConstruction())
+        Q = c.getCenter()
+        s = c.getRadius()
+        self.assertEqual(Q, P)
+        self.assertEqual(s, 3)
 
 if __name__ == "__main__":
     unittest.main()

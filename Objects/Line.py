@@ -25,7 +25,7 @@ class Line(GeometricObject):
         self.correctPosition()
     
     def correctPosition(self):
-        if any([not obj.exists() for obj in self.definingObjects]):
+        if any([not obj.exists() for obj in self.definingObjects if isinstance(obj, GeometricObject)]):
             self.x = None
             self.y = None
             self.doesExist = False
