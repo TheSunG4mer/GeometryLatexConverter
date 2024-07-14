@@ -1,14 +1,17 @@
 
 
-from GUI.tools import ToolInterface
+from GUI.tools.ToolInterface import Tool
 
 
-class SelectionTool(ToolInterface):
+class SelectionTool(Tool):
+    def __init__(self, root):
+        self.root = root
+
     def do_click(self, event):
-        pass
+        print("Hello World")
 
     def do_drag(self, event):
-        pass
+        print("Hello World2")
 
     def do_release(self, event):
-        pass
+        print("Hello World3")

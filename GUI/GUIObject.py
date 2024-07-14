@@ -1,6 +1,7 @@
 import tkinter
 
-from GUI.tools import SelectionTool
+from GUI.tools.PointInsertionTool import PointInsertionTool
+from GUI.tools.SelectionTool import SelectionTool
 from Objects.Point import Point
 
 RADIUS = 5
@@ -52,17 +53,17 @@ class GUI:
         self.root = root
         self.objects = []
         self.colors = ['black', 'red', 'blue', 'green', 'yellow']
-        self.create_menu()
 
         root.title('Geometry Window')
         root.resizable(True, True)
 
         # Creating tools for use.
         self.selectionTool = SelectionTool(self)
+        self.pointInsertionTool = PointInsertionTool(self)
+        
+        
         self.current_tool = self.selectionTool
 
-        button_quit = tkinter.Button(root, text='Quit', command=self.root.destroy)
-        button_quit.grid(row=0, column=0, sticky='EW')
 
         button_clear = tkinter.Button(root, text='Clear', command=self.do_clear)
         button_clear.grid(row=0, column=1, sticky='EW')
@@ -72,9 +73,10 @@ class GUI:
                                        variable=self.show_ch, command=self.redraw)
         checkbox.grid(row=0, column=2)
 
-        canvas = tkinter.Canvas(root, width=500, height=300, background='lightgrey')
+        canvas = tkinter.Canvas(root, width=1000, height=600, background='lightgrey')
         canvas.grid(row=1, column=0, columnspan=3)
         canvas.bind('<Button-1>', self.do_click)
         self.canvas = canvas
 
+        self.create_menu()
 

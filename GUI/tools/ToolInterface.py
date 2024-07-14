@@ -1,6 +1,6 @@
 
 
-class ToolInterface:
+class Tool:
     def do_click(self, event):
         pass
 
