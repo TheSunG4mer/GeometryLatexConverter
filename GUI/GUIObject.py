@@ -1,39 +1,65 @@
-from scipy.spatial import ConvexHull
 import tkinter
+
+from GUI.tools import SelectionTool
+from Objects.Point import Point
 
 RADIUS = 5
 
 
 class GUI:
+    
+
     def do_clear(self):
-        self.points.clear()
+        self.objects.clear()
         self.redraw()
 
     def do_click(self, event):
         x, y = event.x, event.y
-        points = self.points
-        Q = [p for p in points if (x - p[0])**2 + (y - p[1])**2 <= RADIUS**2]
-        if Q:
-            points.remove(Q[-1])
-        else:
-            points.append((x, y))
+        self.objects.append(Point(x=x, y=y))
         self.redraw()
+
+    def do_quit(self):
+        self.root.destroy()
+
 
     def redraw(self):
         self.canvas.delete('all')
 
-        if self.show_ch.get() and len(self.points) >= 3:
-            convex_hull = [self.points[idx] for idx in ConvexHull(self.points).vertices]
-            self.canvas.create_polygon(convex_hull, fill='yellow', outline='black')
-        for x, y in self.points:
-            self.canvas.create_oval(x-RADIUS, y-RADIUS, x+RADIUS, y+RADIUS, fill='grey')
+        for object in self.objects:
+            if isinstance(object, Point):
+                x, y = object.getCoordinates()
+                self.canvas.create_oval(x-RADIUS, y-RADIUS, x+RADIUS, y+RADIUS, fill='grey')
+
+    def create_menu(self):
+        menubar = tkinter.Menu(self.root)
+        pointmenu = tkinter.Menu(menubar, tearoff=0)
+        pointmenu.add_command(label='Point', command=self.set_current_tool_handler(self.pointInsertionTool))
+        colormenu = tkinter.Menu(menubar, tearoff=0)
+        for color in self.colors: # list of color names
+            colormenu.add_command(label=color,
+                                foreground=color)
+        menubar.add_cascade(label='Points', menu=pointmenu)
+        menubar.add_cascade(label='Color', menu=colormenu)
+        self.root.config(menu=menubar) # Show menubar
+
+    def set_current_tool_handler(self, tool):
+        return lambda : self.set_current_tool(tool)
+    
+    def set_current_tool(self, tool):
+        self.current_tool = tool
 
     def __init__(self, root):
         self.root = root
-        self.points = []
+        self.objects = []
+        self.colors = ['black', 'red', 'blue', 'green', 'yellow']
+        self.create_menu()
 
-        root.title('Convex hull')
-        root.resizable(False, False)
+        root.title('Geometry Window')
+        root.resizable(True, True)
+
+        # Creating tools for use.
+        self.selectionTool = SelectionTool(self)
+        self.current_tool = self.selectionTool
 
         button_quit = tkinter.Button(root, text='Quit', command=self.root.destroy)
         button_quit.grid(row=0, column=0, sticky='EW')
