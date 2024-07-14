@@ -4,7 +4,7 @@ import tkinter
 RADIUS = 5
 
 
-class ConvexHullWindow:
+class GUI:
     def do_clear(self):
         self.points.clear()
         self.redraw()
@@ -52,7 +52,3 @@ class ConvexHullWindow:
         self.canvas = canvas
 
 
-ConvexHullWindow(tkinter.Tk())
-# ConvexHullWindow(tkinter.Toplevel())
-
-tkinter.mainloop()
