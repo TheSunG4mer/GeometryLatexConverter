@@ -17,16 +17,18 @@ class GUI:
         
 
     def do_drag(self, event):
-        pass
+        self.currentTool.do_drag(event)
 
     def do_release(self, event):
-        pass
+        self.currentTool.do_release(event)
 
 
 
     def do_quit(self):
         self.root.destroy()
 
+    def drawPoint(self, x, y, color="grey"):
+        self.canvas.create_oval(x - RADIUS, y - RADIUS, x + RADIUS, y + RADIUS, fill=color)
 
     def redraw(self):
         self.canvas.delete('all')
@@ -34,7 +36,7 @@ class GUI:
         for object in self.objects:
             if isinstance(object, Point):
                 x, y = object.getCoordinates()
-                self.canvas.create_oval(x-RADIUS, y-RADIUS, x+RADIUS, y+RADIUS, fill='grey')
+                self.drawPoint(x, y)
 
     def create_menu(self):
         menubar = tkinter.Menu(self.root)
