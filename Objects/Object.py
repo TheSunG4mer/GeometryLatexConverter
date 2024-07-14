@@ -1,4 +1,5 @@
 
 
 class GeometricObject:
-    pass
+    def getVisibility(self):
+        return True

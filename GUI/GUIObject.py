@@ -2,6 +2,7 @@ import tkinter
 
 from GUI.tools.PointInsertionTool import PointInsertionTool
 from GUI.tools.SelectionTool import SelectionTool
+from Objects.Object import GeometricObject
 from Objects.Point import Point
 
 RADIUS = 5
@@ -34,18 +35,22 @@ class GUI:
         self.canvas.delete('all')
 
         for object in self.objects:
-            if isinstance(object, Point):
-                x, y = object.getCoordinates()
-                self.drawPoint(x, y)
+            if isinstance(object, GeometricObject) and object.getVisibility():
+                if isinstance(object, Point):
+                    x, y = object.getCoordinates()
+                    self.drawPoint(x, y)
 
     def create_menu(self):
         menubar = tkinter.Menu(self.root)
+        movemenu = tkinter.Menu(menubar, tearoff=0)
+        movemenu.add_command(label="Move", command=self.set_current_tool_handler(self.selectionTool))
         pointmenu = tkinter.Menu(menubar, tearoff=0)
         pointmenu.add_command(label='Point', command=self.set_current_tool_handler(self.pointInsertionTool))
         colormenu = tkinter.Menu(menubar, tearoff=0)
         for color in self.colors: # list of color names
             colormenu.add_command(label=color,
                                 foreground=color)
+        menubar.add_cascade(label='Move', menu=movemenu)
         menubar.add_cascade(label='Points', menu=pointmenu)
         menubar.add_cascade(label='Color', menu=colormenu)
         self.root.config(menu=menubar) # Show menubar

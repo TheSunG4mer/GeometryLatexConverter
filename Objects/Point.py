@@ -61,3 +61,6 @@ class Point(GeometricObject):
         assert isinstance(point2, Point)
         x2, y2 = point2.getCoordinates()
         return ((self.x - x2) ** 2 + (self.y - y2) ** 2) ** 0.5
+    
+    def getVisibility(self):
+        return self.isVisible
