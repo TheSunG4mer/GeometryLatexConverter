@@ -8,16 +8,21 @@ RADIUS = 5
 
 
 class GUI:
-    
-
     def do_clear(self):
         self.objects.clear()
         self.redraw()
 
     def do_click(self, event):
-        x, y = event.x, event.y
-        self.objects.append(Point(x=x, y=y))
-        self.redraw()
+        self.currentTool.do_click(event)
+        
+
+    def do_drag(self, event):
+        pass
+
+    def do_release(self, event):
+        pass
+
+
 
     def do_quit(self):
         self.root.destroy()
@@ -47,7 +52,8 @@ class GUI:
         return lambda : self.set_current_tool(tool)
     
     def set_current_tool(self, tool):
-        self.current_tool = tool
+        print(tool)
+        self.currentTool = tool
 
     def __init__(self, root):
         self.root = root
@@ -62,7 +68,7 @@ class GUI:
         self.pointInsertionTool = PointInsertionTool(self)
         
         
-        self.current_tool = self.selectionTool
+        self.currentTool = self.selectionTool
 
 
         button_clear = tkinter.Button(root, text='Clear', command=self.do_clear)
@@ -76,6 +82,8 @@ class GUI:
         canvas = tkinter.Canvas(root, width=1000, height=600, background='lightgrey')
         canvas.grid(row=1, column=0, columnspan=3)
         canvas.bind('<Button-1>', self.do_click)
+        canvas.bind('<B1-Motion>', self.do_drag)
+        canvas.bind('<ButtonRelease-1>', self.do_release)
         self.canvas = canvas
 
         self.create_menu()
