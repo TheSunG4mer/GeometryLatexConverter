@@ -10,6 +10,9 @@ class Circle(GeometricObject):
     def __init__(self, definingObjects, constructionStrategy, name = None, isVisible = False):
         assert isinstance(constructionStrategy, ConstructionStrategy)
         self.definingObjects = definingObjects
+        for obj in definingObjects:
+            assert isinstance(obj, GeometricObject)
+            obj.addChild(self)
         self.constructionStrategy = constructionStrategy
 
         self.center = Point(x = 0, y = 0)
@@ -59,6 +62,9 @@ class Circle(GeometricObject):
     
     def isClose(self, x, y, tolerance):
         return self.distanceToPoint(x, y) <= tolerance
+    
+    def addChild(self, object):
+        self.childObjects.append(object)
 
 
 def distanceBetweenPoints(x1, y1, x2, y2):

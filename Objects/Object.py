@@ -1,6 +1,9 @@
 
 
 class GeometricObject:
+    def correctPosition():
+        return []
+
     def getVisibility(self):
         return True
     

@@ -24,7 +24,12 @@ class Point(GeometricObject):
         else:
             assert isinstance(constructionStrategy, ConstructionStrategy)
             self.isFree = False
+
             self.definingObjects = definingObjects
+            for obj in definingObjects:
+                assert isinstance(obj, GeometricObject)
+                obj.addChild(self)
+                
             self.constructionStrategy = constructionStrategy
             self.x = 0
             self.y = 0
@@ -51,6 +56,7 @@ class Point(GeometricObject):
         if self.free():
             self.x = x
             self.y = y
+        return self.childObjects
         
     def getCoordinates(self):
         return self.x, self.y
@@ -78,6 +84,9 @@ class Point(GeometricObject):
 
     def isClose(self, x, y, tolerance):
         return distanceBetweenPoints(self.x, self.y, x, y) <= tolerance
+    
+    def addChild(self, object):
+        self.childObjects.append(object)
 
 
 

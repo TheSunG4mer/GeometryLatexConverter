@@ -8,6 +8,7 @@ from Objects.Point import Point
 
 SMALLRADIUS = 2
 RADIUS = 5
+LARGERADIUS = 7
 TOLERANCE = 10
 
 
@@ -74,12 +75,12 @@ class GUI:
         self.selectedObjects.append(object)
 
     def clearSelectedObjects(self):
-        self.selectedObejcts = []
+        self.selectedObjects = []
 
     def __init__(self, root):
         self.root = root
         self.objects = []
-        self.selectedObejcts = []
+        self.selectedObjects = []
         self.colors = ['black', 'red', 'blue', 'green', 'yellow']
 
         root.title('Geometry Window')
@@ -95,6 +96,7 @@ class GUI:
 
         self.smallPointSize = SMALLRADIUS
         self.largePointSize = RADIUS
+        self.veryLargePointSize = LARGERADIUS
         self.tolerance = TOLERANCE
 
 

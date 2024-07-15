@@ -9,6 +9,8 @@ class Line(GeometricObject):
         assert all([isinstance(obj, GeometricObject) for obj in definingObjects])
         assert isinstance(constructionStrategy, ConstructionStrategy)
         self.definingObjects = definingObjects
+        for obj in definingObjects:
+            obj.addChild(self)
         self.constructionStrategy = constructionStrategy
 
         self.xCoef = 1
@@ -79,3 +81,6 @@ class Line(GeometricObject):
 
     def isClose(self, x, y, tolerance):
         return self.isPointInBoundingBox((x, y)) and self.distanceToPoint(x, y) <= tolerance
+    
+    def addChild(self, object):
+        self.childObjects.append(object)
