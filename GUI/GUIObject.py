@@ -1,10 +1,12 @@
 import tkinter
 
+from GUI.tools.DebugTool import DebugTool
 from GUI.tools.PointInsertionTool import PointInsertionTool
 from GUI.tools.SelectionTool import SelectionTool
 from Objects.Object import GeometricObject
 from Objects.Point import Point
 
+SMALLRADIUS = 2
 RADIUS = 5
 TOLERANCE = 10
 
@@ -23,6 +25,7 @@ class GUI:
 
     def do_release(self, event):
         self.currentTool.do_release(event)
+        
 
 
 
@@ -45,6 +48,7 @@ class GUI:
         menubar = tkinter.Menu(self.root)
         movemenu = tkinter.Menu(menubar, tearoff=0)
         movemenu.add_command(label="Move", command=self.set_current_tool_handler(self.selectionTool))
+        movemenu.add_command(label="Debug Tool", command=self.set_current_tool_handler(self.debugTool))
         pointmenu = tkinter.Menu(menubar, tearoff=0)
         pointmenu.add_command(label='Point', command=self.set_current_tool_handler(self.pointInsertionTool))
         colormenu = tkinter.Menu(menubar, tearoff=0)
@@ -60,23 +64,38 @@ class GUI:
         return lambda : self.set_current_tool(tool)
     
     def set_current_tool(self, tool):
-        print(tool)
+        print(f"Active tool: {tool}")
         self.currentTool = tool
+
+    def getTolerance(self):
+        return self.tolerance
+
+    def addSelectedObject(self, object):
+        self.selectedObjects.append(object)
+
+    def clearSelectedObjects(self):
+        self.selectedObejcts = []
 
     def __init__(self, root):
         self.root = root
         self.objects = []
+        self.selectedObejcts = []
         self.colors = ['black', 'red', 'blue', 'green', 'yellow']
 
         root.title('Geometry Window')
-        root.resizable(True, True)
+        root.resizable(False, False)
 
         # Creating tools for use.
         self.selectionTool = SelectionTool(self)
         self.pointInsertionTool = PointInsertionTool(self)
+        self.debugTool = DebugTool(self)
         
         
         self.currentTool = self.selectionTool
+
+        self.smallPointSize = SMALLRADIUS
+        self.largePointSize = RADIUS
+        self.tolerance = TOLERANCE
 
 
         button_clear = tkinter.Button(root, text='Clear', command=self.do_clear)

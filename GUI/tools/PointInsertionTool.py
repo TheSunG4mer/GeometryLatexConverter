@@ -20,3 +20,6 @@ class PointInsertionTool(Tool):
         x, y = event.x, event.y
         self.root.objects.append(Point(x=x, y=y, isVisible=True))
         self.root.redraw()
+
+    def __str__(self):
+        return "Point Insertion Tool"

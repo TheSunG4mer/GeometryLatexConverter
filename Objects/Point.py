@@ -47,6 +47,10 @@ class Point(GeometricObject):
 
         return self.childObjects
     
+    def setCoordinates(self, x, y):
+        if self.free():
+            self.x = x
+            self.y = y
         
     def getCoordinates(self):
         return self.x, self.y
