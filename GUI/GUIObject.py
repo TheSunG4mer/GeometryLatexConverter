@@ -1,8 +1,11 @@
 import tkinter
 
 from GUI.tools.DebugTool import DebugTool
+from GUI.tools.LineThroughPointsTool import LineThroughPointsTool
 from GUI.tools.PointInsertionTool import PointInsertionTool
 from GUI.tools.SelectionTool import SelectionTool
+from Objects.Circle import Circle
+from Objects.Line import Line
 from Objects.Object import GeometricObject
 from Objects.Point import Point
 
@@ -27,37 +30,80 @@ class GUI:
     def do_release(self, event):
         self.currentTool.do_release(event)
         
+    
+    def do_click_ctrl(self, event):
+        self.currentTool.do_click(event, extraButton = "ctrl")
+        
+
+    def do_drag_ctrl(self, event):
+        self.currentTool.do_drag(event, extraButton = "ctrl")
+
+    def do_release_ctrl(self, event):
+        self.currentTool.do_release(event, extraButton = "ctrl")
 
 
 
     def do_quit(self):
         self.root.destroy()
 
-    def drawPoint(self, x, y, color="grey"):
-        self.canvas.create_oval(x - RADIUS, y - RADIUS, x + RADIUS, y + RADIUS, fill=color)
+    def drawPointObject(self, point):
+        x, y = point.getCoordinates()
+        color = "grey"
+        if not point.free:
+            size = self.smallPointSize
+        else:
+            size = self.largePointSize
+        
+        if point in self.selectedObjects:
+            color = "blue"
+        
+        self.drawPoint(x, y, color=color, size=size)
+
+
+    def drawPoint(self, x, y, color="grey", size=5):
+        self.canvas.create_oval(x - size, y - size, x + size, y + size, fill=color)
+
+    def drawLineObject(self, line):
+        assert isinstance(line, Line)
+        a, b, c = line.getCoefficients()
+
+        if b == 0:
+            pass
+        pass
 
     def redraw(self):
         self.canvas.delete('all')
 
-        for object in self.objects:
-            if isinstance(object, GeometricObject) and object.getVisibility():
-                if isinstance(object, Point):
-                    x, y = object.getCoordinates()
-                    self.drawPoint(x, y)
+        for obj in self.objects:
+            if isinstance(obj, GeometricObject) and obj.getVisibility() and obj.exists():
+
+                if isinstance(obj, Point):
+                    self.drawPointObject(obj)
+
+                if isinstance(obj, Line):
+                    self.drawLineObject(obj)
 
     def create_menu(self):
         menubar = tkinter.Menu(self.root)
+
         movemenu = tkinter.Menu(menubar, tearoff=0)
         movemenu.add_command(label="Move", command=self.set_current_tool_handler(self.selectionTool))
         movemenu.add_command(label="Debug Tool", command=self.set_current_tool_handler(self.debugTool))
+        
         pointmenu = tkinter.Menu(menubar, tearoff=0)
         pointmenu.add_command(label='Point', command=self.set_current_tool_handler(self.pointInsertionTool))
+
+        linemenu = tkinter.Menu(menubar, tearoff=0)
+        linemenu.add_command(label='Line Through Two Points', command=self.set_current_tool_handler(self.lineThroughTwoPointsTool))
+
+
         colormenu = tkinter.Menu(menubar, tearoff=0)
         for color in self.colors: # list of color names
             colormenu.add_command(label=color,
                                 foreground=color)
         menubar.add_cascade(label='Move', menu=movemenu)
         menubar.add_cascade(label='Points', menu=pointmenu)
+        menubar.add_cascade(label='Lines', menu=linemenu)
         menubar.add_cascade(label='Color', menu=colormenu)
         self.root.config(menu=menubar) # Show menubar
 
@@ -67,29 +113,66 @@ class GUI:
     def set_current_tool(self, tool):
         print(f"Active tool: {tool}")
         self.currentTool = tool
+        tool.tryCreatingObject()
 
     def getTolerance(self):
         return self.tolerance
+    
+    def addObject(self, object):
+        self.objects.append(object)
 
     def addSelectedObject(self, object):
         self.selectedObjects.append(object)
+        if isinstance(object, Point):
+            self.selectedPoints.append(object)
+            self.selectedObjectsTally[0] += 1
+        elif isinstance(object, Line):
+            self.selectedLines.append(object)
+            self.selectedObjectsTally[1] += 1
+        elif isinstance(object, Circle):
+            self.selectedCircles.append(object)
+            self.selectedObjectsTally[2] += 1
 
     def clearSelectedObjects(self):
         self.selectedObjects = []
+        self.selectedPoints = []
+        self.selectedLines = []
+        self.selectedCircles = []
+        self.selectedObjectsTally = [0, 0, 0]
+
+    def getSelectedObjects(self):
+        return self.selectedObjects
+    
+    def getSelectedSortedObjects(self):
+        return [self.selectedPoints, self.selectedLines, self.selectedCircles]
+
+    def getSelectedObjectsTally(self):
+        return self.selectedObjectsTally
 
     def __init__(self, root):
         self.root = root
         self.objects = []
         self.selectedObjects = []
+        self.selectedPoints = []
+        self.selectedLines = []
+        self.selectedCircles = []
+        self.selectedObjectsTally = [0, 0, 0]
         self.colors = ['black', 'red', 'blue', 'green', 'yellow']
+
 
         root.title('Geometry Window')
         root.resizable(False, False)
+
+        self.lowerx = 0
+        self.upperx = 1000
+        self.lowery = 0
+        self.uppery = 600
 
         # Creating tools for use.
         self.selectionTool = SelectionTool(self)
         self.pointInsertionTool = PointInsertionTool(self)
         self.debugTool = DebugTool(self)
+        self.lineThroughTwoPointsTool = LineThroughPointsTool(self)
         
         
         self.currentTool = self.selectionTool
@@ -113,6 +196,9 @@ class GUI:
         canvas.bind('<Button-1>', self.do_click)
         canvas.bind('<B1-Motion>', self.do_drag)
         canvas.bind('<ButtonRelease-1>', self.do_release)
+        canvas.bind('<Control-Button-1>', self.do_click_ctrl)
+        canvas.bind('<Control-B1-Motion>', self.do_drag_ctrl)
+        canvas.bind('<Control-ButtonRelease-1>', self.do_release_ctrl)
         self.canvas = canvas
 
         self.create_menu()

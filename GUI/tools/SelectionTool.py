@@ -10,7 +10,7 @@ class SelectionTool(Tool):
         self.root = root
         self.selectedObject = None
 
-    def do_click(self, event):
+    def do_click(self, event, extraButton=None):
         x, y, = event.x, event.y
         tolerance = self.root.getTolerance()
 
@@ -25,7 +25,9 @@ class SelectionTool(Tool):
         self.selectedObject = selectedObject
         self.root.addSelectedObject(selectedObject)
 
-    def do_drag(self, event):
+        self.root.redraw()
+
+    def do_drag(self, event, extraButton=None):
         x, y = event.x, event.y
         if isinstance(self.selectedObject, Point):
             children = self.selectedObject.setCoordinates(x, y)
@@ -40,10 +42,13 @@ class SelectionTool(Tool):
         self.root.redraw()
 
 
-    def do_release(self, event):
-        pass
-        self.root.clearSelectedObjects()
+    def do_release(self, event, extraButton=None):
+        if not extraButton == "ctrl":
+            self.root.clearSelectedObjects()
         self.selectedObject = None
+        self.root.redraw()
 
     def __str__(self):
         return "Selection Tool"
+    
+

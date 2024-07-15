@@ -6,20 +6,21 @@ class PointInsertionTool(Tool):
     def __init__(self, root):
         self.root = root
 
-    def do_click(self, event):
+    def do_click(self, event, extraButton=None):
         x, y = event.x, event.y
         self.root.redraw()
         self.root.drawPoint(x,y, "blue")
 
-    def do_drag(self, event):
+    def do_drag(self, event, extraButton=None):
         x, y = event.x, event.y
         self.root.redraw()
         self.root.drawPoint(x,y, "blue")
     
-    def do_release(self, event):
+    def do_release(self, event, extraButton=None):
         x, y = event.x, event.y
-        self.root.objects.append(Point(x=x, y=y, isVisible=True))
+        self.root.addObject(Point(x=x, y=y, isVisible=True))
         self.root.redraw()
 
     def __str__(self):
         return "Point Insertion Tool"
+    
