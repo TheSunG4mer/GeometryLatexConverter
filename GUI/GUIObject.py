@@ -66,10 +66,46 @@ class GUI:
     def drawLineObject(self, line):
         assert isinstance(line, Line)
         a, b, c = line.getCoefficients()
+        lowerx = self.lowerx
+        upperx = self.upperx
+        lowery = self.lowery
+        uppery = self.uppery
 
         if b == 0:
-            pass
-        pass
+            x1 = c / a
+            if not lowerx <= x1 <= upperx:
+                return
+            y1 = lowery
+            y2 = uppery
+            x2 = x1
+        elif a == 0:
+            y1= c / b
+            if not lowery <= y1 <= uppery:
+                return
+            x1 = lowerx
+            x2 = upperx
+            y2 = y1 
+        else:
+            points = []
+            x = (c - b * lowery) / a
+            if lowerx <= x <= upperx:
+                points.append(x)
+                points.append(lowery)
+            x = (c - b * uppery) / a
+            if lowerx <= x <= upperx:
+                points.append(x)
+                points.append(uppery)
+            y = (c - a * lowerx) / b
+            if lowery <= y <= uppery:
+                points.append(lowerx)
+                points.append(y)
+            y = (c - a * upperx) / b
+            if lowery <= y <= uppery:
+                points.append(upperx)
+                points.append(y)
+            x1, y1, x2, y2 = points
+
+        self.canvas.create_line(x1, y1, x2, y2, width=2)
 
     def redraw(self):
         self.canvas.delete('all')

@@ -77,10 +77,14 @@ class Line(GeometricObject):
     
     def distanceToPoint(self, x, y):
         a, b, c = self.getCoefficients()
-        return math.abs((a * x + b * y - c) / (a ** 2 + b ** 2) ** 0.5)
+        return abs((a * x + b * y - c) / (a ** 2 + b ** 2) ** 0.5)
 
     def isClose(self, x, y, tolerance):
         return self.isPointInBoundingBox((x, y)) and self.distanceToPoint(x, y) <= tolerance
     
     def addChild(self, object):
         self.childObjects.append(object)
+
+    def __str__(self):
+        a, b, c = self.getCoefficients()
+        return f"Line ({a:2f}x + {b:2f}y = {c:2f}) \n{[str(obj) for obj in self.definingObjects]}"

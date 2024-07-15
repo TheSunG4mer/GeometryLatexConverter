@@ -58,7 +58,7 @@ class Circle(GeometricObject):
     def distanceToPoint(self, x, y):
         x0, y0 = self.center
         r = self.radius
-        return math.abs(r - distanceBetweenPoints(x0, y0, x, y))
+        return abs(r - distanceBetweenPoints(x0, y0, x, y))
     
     def isClose(self, x, y, tolerance):
         return self.distanceToPoint(x, y) <= tolerance

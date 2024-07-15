@@ -41,6 +41,7 @@ class LineThroughPointsTool(Tool):
 
     def createObject(self):
         points, lines, circles = self.root.getSelectedSortedObjects()
-        line = Line(points, LineThroughTwoPointsConstruction(), isVisible=True)
+        definingObjects = [points[0], points[1]]
+        line = Line(definingObjects, LineThroughTwoPointsConstruction(), isVisible=True)
         self.root.addObject(line)
         self.root.redraw()

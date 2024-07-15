@@ -11,6 +11,8 @@ class SelectionTool(Tool):
         self.selectedObject = None
 
     def do_click(self, event, extraButton=None):
+        if extraButton is None:
+            self.root.clearSelectedObjects()
         x, y, = event.x, event.y
         tolerance = self.root.getTolerance()
 
