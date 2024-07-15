@@ -8,10 +8,10 @@ class SelectionTool(Tool):
         self.root = root
 
     def do_click(self, event):
-        print("Hello World")
+        print([str(x) for x in self.root.objects])
 
     def do_drag(self, event):
-        print("Hello World2")
+        pass
 
     def do_release(self, event):
-        print("Hello World3")
+        pass

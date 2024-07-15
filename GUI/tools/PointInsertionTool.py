@@ -18,5 +18,5 @@ class PointInsertionTool(Tool):
     
     def do_release(self, event):
         x, y = event.x, event.y
-        self.root.objects.append(Point(x=x, y=y))
+        self.root.objects.append(Point(x=x, y=y, isVisible=True))
         self.root.redraw()

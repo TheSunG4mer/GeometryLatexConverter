@@ -65,3 +65,9 @@ class Line(GeometricObject):
             if uppery < y:
                 return False
         return True
+    
+    def setVisibility(self, isVisible):
+        self.isVisible = isVisible
+    
+    def getVisibility(self):
+        return self.isVisible

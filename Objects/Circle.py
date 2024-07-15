@@ -45,4 +45,8 @@ class Circle(GeometricObject):
     def exists(self):
         return self.doesExist
     
+    def setVisibility(self, isVisible):
+        self.isVisible = isVisible
     
+    def getVisibility(self):
+        return self.isVisible

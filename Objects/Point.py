@@ -64,3 +64,10 @@ class Point(GeometricObject):
     
     def getVisibility(self):
         return self.isVisible
+    
+    def __str__(self):
+        x,y = self.getCoordinates()
+        return f"Point ({x}, {y})"
+    
+    def setVisibility(self, isVisible):
+        self.isVisible = isVisible
