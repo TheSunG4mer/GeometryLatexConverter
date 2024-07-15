@@ -60,7 +60,7 @@ class Point(GeometricObject):
     def distanceToPoint(self, point2):
         assert isinstance(point2, Point)
         x2, y2 = point2.getCoordinates()
-        return ((self.x - x2) ** 2 + (self.y - y2) ** 2) ** 0.5
+        return distanceBetweenPoints(self.x, self.y, x2, y2)
     
     def getVisibility(self):
         return self.isVisible
@@ -71,3 +71,11 @@ class Point(GeometricObject):
     
     def setVisibility(self, isVisible):
         self.isVisible = isVisible
+
+    def isClose(self, x, y, tolerance):
+        return distanceBetweenPoints(self.x, self.y, x, y) <= tolerance
+
+
+
+def distanceBetweenPoints(x1, y1, x2, y2):
+    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5

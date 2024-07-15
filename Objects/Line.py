@@ -1,3 +1,4 @@
+import math
 from Objects.Object import GeometricObject
 from Objects.ConstructionStrategies.ConstructionStrategy import ConstructionStrategy
 
@@ -71,3 +72,10 @@ class Line(GeometricObject):
     
     def getVisibility(self):
         return self.isVisible
+    
+    def distanceToPoint(self, x, y):
+        a, b, c = self.getCoefficients()
+        return math.abs((a * x + b * y - c) / (a ** 2 + b ** 2) ** 0.5)
+
+    def isClose(self, x, y, tolerance):
+        return self.isPointInBoundingBox((x, y)) and self.distanceToPoint(x, y) <= tolerance

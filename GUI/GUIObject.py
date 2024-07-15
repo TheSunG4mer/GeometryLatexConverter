@@ -6,6 +6,7 @@ from Objects.Object import GeometricObject
 from Objects.Point import Point
 
 RADIUS = 5
+TOLERANCE = 10
 
 
 class GUI:

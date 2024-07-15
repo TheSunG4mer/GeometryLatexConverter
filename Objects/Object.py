@@ -6,3 +6,6 @@ class GeometricObject:
     
     def setVisibility(self, isVisible):
         pass
+
+    def isClose(self, x, y, tolerance):
+        return False
