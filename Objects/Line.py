@@ -1,3 +1,4 @@
+import math
 from Objects.Object import GeometricObject
 from Objects.ConstructionStrategies.ConstructionStrategy import ConstructionStrategy
 
@@ -8,6 +9,8 @@ class Line(GeometricObject):
         assert all([isinstance(obj, GeometricObject) for obj in definingObjects])
         assert isinstance(constructionStrategy, ConstructionStrategy)
         self.definingObjects = definingObjects
+        for obj in definingObjects:
+            obj.addChild(self)
         self.constructionStrategy = constructionStrategy
 
         self.xCoef = 1
@@ -65,3 +68,23 @@ class Line(GeometricObject):
             if uppery < y:
                 return False
         return True
+    
+    def setVisibility(self, isVisible):
+        self.isVisible = isVisible
+    
+    def getVisibility(self):
+        return self.isVisible
+    
+    def distanceToPoint(self, x, y):
+        a, b, c = self.getCoefficients()
+        return abs((a * x + b * y - c) / (a ** 2 + b ** 2) ** 0.5)
+
+    def isClose(self, x, y, tolerance):
+        return self.isPointInBoundingBox((x, y)) and self.distanceToPoint(x, y) <= tolerance
+    
+    def addChild(self, object):
+        self.childObjects.append(object)
+
+    def __str__(self):
+        a, b, c = self.getCoefficients()
+        return f"Line ({a:2f}x + {b:2f}y = {c:2f}) \n{[str(obj) for obj in self.definingObjects]}"

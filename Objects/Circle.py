@@ -1,3 +1,4 @@
+import math
 from Objects.Object import GeometricObject
 from Objects.Point import Point
 
@@ -9,6 +10,9 @@ class Circle(GeometricObject):
     def __init__(self, definingObjects, constructionStrategy, name = None, isVisible = False):
         assert isinstance(constructionStrategy, ConstructionStrategy)
         self.definingObjects = definingObjects
+        for obj in definingObjects:
+            assert isinstance(obj, GeometricObject)
+            obj.addChild(self)
         self.constructionStrategy = constructionStrategy
 
         self.center = Point(x = 0, y = 0)
@@ -45,4 +49,23 @@ class Circle(GeometricObject):
     def exists(self):
         return self.doesExist
     
+    def setVisibility(self, isVisible):
+        self.isVisible = isVisible
     
+    def getVisibility(self):
+        return self.isVisible
+    
+    def distanceToPoint(self, x, y):
+        x0, y0 = self.center
+        r = self.radius
+        return abs(r - distanceBetweenPoints(x0, y0, x, y))
+    
+    def isClose(self, x, y, tolerance):
+        return self.distanceToPoint(x, y) <= tolerance
+    
+    def addChild(self, object):
+        self.childObjects.append(object)
+
+
+def distanceBetweenPoints(x1, y1, x2, y2):
+    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
