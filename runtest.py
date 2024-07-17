@@ -2,6 +2,7 @@ import unittest
 
 from Objects.Circle import Circle
 from Objects.ConstructionStrategies.PointAsMidpointConstruction import PointAsMidpointConstruction
+from Objects.ConstructionStrategies.PointDistanceFromPointAlongLineConstruction import PointDistanceFromPointAlingLineConstruction
 from Objects.Line import Line
 from Objects.Point import Point
 
@@ -208,7 +209,18 @@ class TestStringMethods(unittest.TestCase):
         B = Point(1, 3)
         X = Point(definingObjects=[A,B], constructionStrategy=PointAsMidpointConstruction())
         self.assertEqual(X.getCoordinates(), (3/2, 2))
-
+    
+    def test_shouldGiveRightPointFromConstruction(self):
+        A = Point(2, 1)
+        B = Point(2, 5)
+        X = Point(definingObjects=[A, B, 2], constructionStrategy=PointDistanceFromPointAlingLineConstruction())
+        self.assertEqual(X.getCoordinates(), (2, 3))
+    
+    def test_shouldGiveRightPointFromConstruction2(self):
+        A = Point(2, 1)
+        B = Point(6, 5)
+        X = Point(definingObjects=[A, B, 2], constructionStrategy=PointDistanceFromPointAlingLineConstruction())
+        self.assertEqual(X.getCoordinates(), (2 + 2 ** 0.5, 1 + 2 ** 0.5))
 
 if __name__ == "__main__":
     unittest.main()

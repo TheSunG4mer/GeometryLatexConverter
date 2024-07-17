@@ -1,0 +1,4 @@
+
+Circle-circle interaction.
+
+Zoom/move canvas functionality.

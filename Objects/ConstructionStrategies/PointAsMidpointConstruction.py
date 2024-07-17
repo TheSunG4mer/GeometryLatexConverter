@@ -12,5 +12,3 @@ class PointAsMidpointConstruction(ConstructionStrategy):
         x1, y1 = point1.getCoordinates()
         x2, y2 = point2.getCoordinates()
         return (x1 + x2)/2, (y1 + y2)/2
-
-        pass
