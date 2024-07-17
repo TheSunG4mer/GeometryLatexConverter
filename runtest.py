@@ -1,6 +1,7 @@
 import unittest
 
 from Objects.Circle import Circle
+from Objects.ConstructionStrategies.LineOrthogonalToLineThroughPointConstruction import LineOrthogonalToLineThroughPointConstruction
 from Objects.ConstructionStrategies.PointAsMidpointConstruction import PointAsMidpointConstruction
 from Objects.ConstructionStrategies.PointDistanceFromPointAlongLineConstruction import PointDistanceFromPointAlingLineConstruction
 from Objects.Line import Line
@@ -221,6 +222,23 @@ class TestStringMethods(unittest.TestCase):
         B = Point(6, 5)
         X = Point(definingObjects=[A, B, 2], constructionStrategy=PointDistanceFromPointAlingLineConstruction())
         self.assertEqual(X.getCoordinates(), (2 + 2 ** 0.5, 1 + 2 ** 0.5))
+    
+    def test_shouldGiveRightOrthogonalLine(self):
+        A = Point(0, 0)
+        B = Point(1, 0)
+        l1 = Line(definingObjects=[A, B], constructionStrategy=LineThroughTwoPointsConstruction())
+        l2 = Line(definingObjects=[A, l1], constructionStrategy=LineOrthogonalToLineThroughPointConstruction())
+        
+        self.assertEqual(l2.getCoefficients(), (1, 0, 0))
+
+    def test_shouldGiveRightDigagonalLineFromOrthogonalLine(self):
+        A = Point(0, 0)
+        B = Point(1, 1)
+        l1 = Line(definingObjects=[A, B], constructionStrategy=LineThroughTwoPointsConstruction())
+        l2 = Line(definingObjects=[B, l1], constructionStrategy=LineOrthogonalToLineThroughPointConstruction())
+        
+        self.assertEqual(l2.getCoefficients(), (1, 1, 2))
+
 
 if __name__ == "__main__":
     unittest.main()

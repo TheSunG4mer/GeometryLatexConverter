@@ -1,5 +1,3 @@
-
-
 from Objects.ConstructionStrategies.ConstructionStrategy import ConstructionStrategy
 from Objects.Point import Point
 
