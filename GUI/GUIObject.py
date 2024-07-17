@@ -108,31 +108,44 @@ class GUI:
                 points.append(y)
             x1, y1, x2, y2 = points
 
-        self.canvas.create_line(x1, y1, x2, y2, width=2)
+        if line in self.selectedLines:
+            width = 3
+        else:
+            width = 2
+            
+        self.canvas.create_line(x1, y1, x2, y2, width=width)
 
     def drawCircleObject(self, circle):
         assert isinstance(circle, Circle)
         center = circle.getCenter()
         radius = circle.getRadius()
         x, y = center.getCoordinates()
-        self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, width=2)
+        if circle in self.selectedCircles:
+            width = 3
+        else:
+            width = 2
+        self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, width=width)
 
 
 
     def redraw(self):
         self.canvas.delete('all')
+        
 
-        for obj in self.objects:
-            if isinstance(obj, GeometricObject) and obj.getVisibility() and obj.exists():
+        for boolVar in [False, True]:
+            for objType in [Circle, Line, Point]:
+                for obj in self.objects:
+                    if isinstance(obj, objType) and obj.getVisibility() and obj.exists():
 
-                if isinstance(obj, Point):
-                    self.drawPointObject(obj)
+                        if isinstance(obj, Point) and obj.free() == boolVar:
+                            self.drawPointObject(obj)
 
-                if isinstance(obj, Line):
-                    self.drawLineObject(obj)
+                        if isinstance(obj, Line) and not boolVar:
+                            self.drawLineObject(obj)
 
-                if isinstance(obj, Circle):
-                    self.drawCircleObject(obj)
+                        if isinstance(obj, Circle) and not boolVar:
+                            self.drawCircleObject(obj)
+
 
     def create_menu(self):
         menubar = tkinter.Menu(self.root)

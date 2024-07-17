@@ -21,19 +21,17 @@ class ObjectFromOtherObjectTool(Tool):
                 ## Try the selected object
                 indexForObj = self.objDict[type(obj)]
                 currentObjDistribution = self.root.getSelectedObjectsTally().copy()
-                print(self.root.getSelectedObjects())
-                print(currentObjDistribution)
                 currentObjDistribution[indexForObj] += 1
 
                 if self.hasTooManyObjects(currentObjDistribution):
-                    pass
+                    continue
                 ##
                 
                 selectedObject = obj
                 self.root.addSelectedObject(selectedObject)
 
                 if self.hasRightObjects(currentObjDistribution):
-                    print(currentObjDistribution)
+                    #print(currentObjDistribution)
                     self.createObject()
                     self.root.clearSelectedObjects()
                 break
@@ -41,7 +39,7 @@ class ObjectFromOtherObjectTool(Tool):
             selectedObject = None
 
 
-        print(selectedObject)       #For debugging 
+        #print(selectedObject)       #For debugging 
 
 
         self.root.redraw()
