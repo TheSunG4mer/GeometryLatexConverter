@@ -23,8 +23,5 @@ class RadicalAxisConstruction(ConstructionStrategy):
         distanceToLinePoint = (r1 ** 2 - r2 ** 2 + d ** 2) / (2 * d)
         X = Point(definingObjects=[c1, c2, distanceToLinePoint], 
                   constructionStrategy=PointDistanceFromPointAlingLineConstruction())
-        radicalAxis = Line(definingObjects=[X, l], 
-                           constructionStrategy=LineOrthogonalToLineThroughPointConstruction())
-        a, b, c = radicalAxis.getCoefficients()
 
-        return a, b, c, [[None, None], [None, None]]
+        return LineOrthogonalToLineThroughPointConstruction().constructObject([X, l])
