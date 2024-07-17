@@ -87,4 +87,4 @@ class Line(GeometricObject):
 
     def __str__(self):
         a, b, c = self.getCoefficients()
-        return f"Line ({a:2f}x + {b:2f}y = {c:2f}) \n{[str(obj) for obj in self.definingObjects]}"
+        return f"Line ({a:.2f}x + {b:.2f}y = {c:.2f}) \n{[str(obj) for obj in self.definingObjects]}"

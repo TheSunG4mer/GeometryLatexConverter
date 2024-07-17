@@ -1,6 +1,7 @@
 import tkinter
 
 from GUI.tools.DebugTool import DebugTool
+from GUI.tools.IntersectionTool import IntersectionTool
 from GUI.tools.LineThroughPointsTool import LineThroughPointsTool
 from GUI.tools.PointInsertionTool import PointInsertionTool
 from GUI.tools.SelectionTool import SelectionTool
@@ -9,7 +10,7 @@ from Objects.Line import Line
 from Objects.Object import GeometricObject
 from Objects.Point import Point
 
-SMALLRADIUS = 2
+SMALLRADIUS = 4
 RADIUS = 5
 LARGERADIUS = 7
 TOLERANCE = 10
@@ -49,7 +50,7 @@ class GUI:
     def drawPointObject(self, point):
         x, y = point.getCoordinates()
         color = "grey"
-        if not point.free:
+        if not point.free():
             size = self.smallPointSize
         else:
             size = self.largePointSize
@@ -128,6 +129,8 @@ class GUI:
         
         pointmenu = tkinter.Menu(menubar, tearoff=0)
         pointmenu.add_command(label='Point', command=self.set_current_tool_handler(self.pointInsertionTool))
+        pointmenu.add_command(label='Intersection', command=self.set_current_tool_handler(self.intersectionTool))
+
 
         linemenu = tkinter.Menu(menubar, tearoff=0)
         linemenu.add_command(label='Line Through Two Points', command=self.set_current_tool_handler(self.lineThroughTwoPointsTool))
@@ -209,6 +212,7 @@ class GUI:
         self.pointInsertionTool = PointInsertionTool(self)
         self.debugTool = DebugTool(self)
         self.lineThroughTwoPointsTool = LineThroughPointsTool(self)
+        self.intersectionTool = IntersectionTool(self)
         
         
         self.currentTool = self.selectionTool
