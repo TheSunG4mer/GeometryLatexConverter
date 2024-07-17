@@ -1,5 +1,6 @@
 import tkinter
 
+from GUI.tools.CircleCircleIntersectionTool import CircleCircleIntersectionTool
 from GUI.tools.CircleFromCenterAndPointTool import CircleFromCenterAndPointTool
 from GUI.tools.DebugTool import DebugTool
 from GUI.tools.IntersectionTool import IntersectionTool
@@ -163,7 +164,10 @@ class GUI:
                               command=self.set_current_tool_handler(self.intersectionTool))
         pointmenu.add_command(label='LineCircleIntersection', 
                               command=self.set_current_tool_handler(self.lineCircleIntersectionTool))
+        pointmenu.add_command(label='CircleCircleIntersection', 
+                              command=self.set_current_tool_handler(self.circleCircleIntersectionTool))
         
+
         linemenu = tkinter.Menu(menubar, tearoff=0)
         linemenu.add_command(label='Line Through Two Points', 
                              command=self.set_current_tool_handler(self.lineThroughTwoPointsTool))
@@ -251,6 +255,7 @@ class GUI:
         self.pointInsertionTool = PointInsertionTool(self)
         self.intersectionTool = IntersectionTool(self)
         self.lineCircleIntersectionTool = LineCircleIntersectionTool(self)
+        self.circleCircleIntersectionTool = CircleCircleIntersectionTool(self)
         
         self.lineThroughTwoPointsTool = LineThroughPointsTool(self)
 

@@ -8,7 +8,7 @@ class PointDistanceFromPointAlingLineConstruction(ConstructionStrategy):
         assert isinstance(pointFrom, Point)
         assert isinstance(pointTo, Point)
         assert isinstance(distance, int) or isinstance(distance, float)
-        assert distance > 0
+        #assert distance > 0
 
         x1, y1 = pointFrom.getCoordinates()
         x2, y2 = pointTo.getCoordinates()
