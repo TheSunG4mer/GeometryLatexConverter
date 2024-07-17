@@ -56,7 +56,7 @@ class Circle(GeometricObject):
         return self.isVisible
     
     def distanceToPoint(self, x, y):
-        x0, y0 = self.center
+        x0, y0 = self.center.getCoordinates()
         r = self.radius
         return abs(r - distanceBetweenPoints(x0, y0, x, y))
     
@@ -65,6 +65,9 @@ class Circle(GeometricObject):
     
     def addChild(self, object):
         self.childObjects.append(object)
+
+    def __str__(self):
+        return f"Circle (center: {str(self.center)}, radius: {self.radius:.2f})"
 
 
 def distanceBetweenPoints(x1, y1, x2, y2):

@@ -1,8 +1,8 @@
 from GUI.tools.ToolInterface import Tool
-from Objects import Circle
 from Objects.ConstructionStrategies.LineThroughTwoPointsConstruction import LineThroughTwoPointsConstruction
-from Objects.Line import Line
 from Objects.Point import Point
+from Objects.Line import Line
+from Objects.Circle import Circle
 
 
 class ObjectFromOtherObjectTool(Tool):

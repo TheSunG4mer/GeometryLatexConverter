@@ -27,8 +27,8 @@ class Point(GeometricObject):
 
             self.definingObjects = definingObjects
             for obj in definingObjects:
-                assert isinstance(obj, GeometricObject)
-                obj.addChild(self)
+                if isinstance(obj, GeometricObject):
+                    obj.addChild(self)
                 
             self.constructionStrategy = constructionStrategy
             self.x = 0
