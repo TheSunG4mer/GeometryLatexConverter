@@ -2,12 +2,12 @@ from Objects.ConstructionStrategies.ConstructionStrategy import ConstructionStra
 from Objects.Point import Point
 
 
-class CircleWithCenterAndRadiusConstruction(ConstructionStrategy):
+class CircleWithCenterAndPointConstruction(ConstructionStrategy):
     def constructObject(self, definingObjects):
-        P, r = definingObjects
+        P, Q = definingObjects
 
         assert isinstance(P, Point)
-        assert isinstance(r, int) or isinstance(r, float)
+        assert isinstance(Q, Point)
 
-        return P, r
+        return P, P.distanceToPoint(Q)
     

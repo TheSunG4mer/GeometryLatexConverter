@@ -1,5 +1,6 @@
 import tkinter
 
+from GUI.tools.CircleFromCenterAndPointTool import CircleFromCenterAndPointTool
 from GUI.tools.DebugTool import DebugTool
 from GUI.tools.IntersectionTool import IntersectionTool
 from GUI.tools.LineThroughPointsTool import LineThroughPointsTool
@@ -108,6 +109,15 @@ class GUI:
 
         self.canvas.create_line(x1, y1, x2, y2, width=2)
 
+    def drawCircleObject(self, circle):
+        assert isinstance(circle, Circle)
+        center = circle.getCenter()
+        radius = circle.getRadius()
+        x, y = center.getCoordinates()
+        self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius)
+
+
+
     def redraw(self):
         self.canvas.delete('all')
 
@@ -120,21 +130,32 @@ class GUI:
                 if isinstance(obj, Line):
                     self.drawLineObject(obj)
 
+                if isinstance(obj, Circle):
+                    self.drawCircleObject(obj)
+
     def create_menu(self):
         menubar = tkinter.Menu(self.root)
 
         movemenu = tkinter.Menu(menubar, tearoff=0)
-        movemenu.add_command(label="Move", command=self.set_current_tool_handler(self.selectionTool))
-        movemenu.add_command(label="Debug Tool", command=self.set_current_tool_handler(self.debugTool))
+        movemenu.add_command(label="Move", 
+                             command=self.set_current_tool_handler(self.selectionTool))
+        movemenu.add_command(label="Debug Tool", 
+                             command=self.set_current_tool_handler(self.debugTool))
         
         pointmenu = tkinter.Menu(menubar, tearoff=0)
-        pointmenu.add_command(label='Point', command=self.set_current_tool_handler(self.pointInsertionTool))
-        pointmenu.add_command(label='Intersection', command=self.set_current_tool_handler(self.intersectionTool))
+        pointmenu.add_command(label='Point', 
+                              command=self.set_current_tool_handler(self.pointInsertionTool))
+        pointmenu.add_command(label='Intersection', 
+                              command=self.set_current_tool_handler(self.intersectionTool))
 
 
         linemenu = tkinter.Menu(menubar, tearoff=0)
-        linemenu.add_command(label='Line Through Two Points', command=self.set_current_tool_handler(self.lineThroughTwoPointsTool))
+        linemenu.add_command(label='Line Through Two Points', 
+                             command=self.set_current_tool_handler(self.lineThroughTwoPointsTool))
 
+        circlemenu = tkinter.Menu(menubar, tearoff=0)
+        circlemenu.add_command(label='Circle from Center and Point', 
+                               command=self.set_current_tool_handler(self.circleFromCenterAndPointTool))
 
         colormenu = tkinter.Menu(menubar, tearoff=0)
         for color in self.colors: # list of color names
@@ -143,6 +164,7 @@ class GUI:
         menubar.add_cascade(label='Move', menu=movemenu)
         menubar.add_cascade(label='Points', menu=pointmenu)
         menubar.add_cascade(label='Lines', menu=linemenu)
+        menubar.add_cascade(label='Circles', menu=circlemenu)
         menubar.add_cascade(label='Color', menu=colormenu)
         self.root.config(menu=menubar) # Show menubar
 
@@ -209,10 +231,14 @@ class GUI:
 
         # Creating tools for use.
         self.selectionTool = SelectionTool(self)
-        self.pointInsertionTool = PointInsertionTool(self)
         self.debugTool = DebugTool(self)
-        self.lineThroughTwoPointsTool = LineThroughPointsTool(self)
+
+        self.pointInsertionTool = PointInsertionTool(self)
         self.intersectionTool = IntersectionTool(self)
+        
+        self.lineThroughTwoPointsTool = LineThroughPointsTool(self)
+
+        self.circleFromCenterAndPointTool = CircleFromCenterAndPointTool(self)
         
         
         self.currentTool = self.selectionTool

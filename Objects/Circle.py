@@ -11,8 +11,8 @@ class Circle(GeometricObject):
         assert isinstance(constructionStrategy, ConstructionStrategy)
         self.definingObjects = definingObjects
         for obj in definingObjects:
-            assert isinstance(obj, GeometricObject)
-            obj.addChild(self)
+            if isinstance(obj, GeometricObject):
+                obj.addChild(self)
         self.constructionStrategy = constructionStrategy
 
         self.center = Point(x = 0, y = 0)
