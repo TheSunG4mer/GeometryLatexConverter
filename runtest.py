@@ -1,9 +1,11 @@
 import unittest
 
 from Objects.Circle import Circle
+from Objects.ConstructionStrategies.CircleWithCenterAndPointConstruction import CircleWithCenterAndPointConstruction
 from Objects.ConstructionStrategies.LineOrthogonalToLineThroughPointConstruction import LineOrthogonalToLineThroughPointConstruction
 from Objects.ConstructionStrategies.PointAsMidpointConstruction import PointAsMidpointConstruction
 from Objects.ConstructionStrategies.PointDistanceFromPointAlongLineConstruction import PointDistanceFromPointAlingLineConstruction
+from Objects.ConstructionStrategies.RadicalAxisConstruction import RadicalAxisConstruction
 from Objects.Line import Line
 from Objects.Point import Point
 
@@ -238,6 +240,16 @@ class TestStringMethods(unittest.TestCase):
         l2 = Line(definingObjects=[B, l1], constructionStrategy=LineOrthogonalToLineThroughPointConstruction())
         
         self.assertEqual(l2.getCoefficients(), (1, 1, 2))
+
+    def test_shouldGiveVerticalLineAsRadicalAxisBetweenSimpleCircles(self):
+        A = Point(-1, 0)
+        B = Point(1, 0)
+        c1 = Circle(definingObjects=[A, B], constructionStrategy=CircleWithCenterAndPointConstruction())
+        c2 = Circle(definingObjects=[B, A], constructionStrategy=CircleWithCenterAndPointConstruction())
+        l = Line(definingObjects=[c1, c2], constructionStrategy=RadicalAxisConstruction())
+        
+        self.assertEqual(l.getCoefficients(), (1, 0, 0))
+        
 
 
 if __name__ == "__main__":
