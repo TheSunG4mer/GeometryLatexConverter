@@ -1,9 +1,10 @@
 from GUI.tools.ObjectFromOtherObjectTool import ObjectFromOtherObjectTool
 from Objects.ConstructionStrategies.LineOrthogonalToLineThroughPointConstruction import LineOrthogonalToLineThroughPointConstruction
+from Objects.ConstructionStrategies.LineParallelToLineThroughPointConstruction import LineParallelToLineThroughPointConstruction
 from Objects.Line import Line
 
 
-class LineOrthogonalThroughPointTool(ObjectFromOtherObjectTool):
+class LineParallelThroughPointTool(ObjectFromOtherObjectTool):
     def __init__(self, root):
         super().__init__(root)
         self.requiredObjects = [1,1,0]
@@ -15,7 +16,7 @@ class LineOrthogonalThroughPointTool(ObjectFromOtherObjectTool):
         points, lines, circles = self.root.getSelectedSortedObjects()
         definingObjects = [points[0], lines[0]]
 
-        line = Line(definingObjects=definingObjects, constructionStrategy=LineOrthogonalToLineThroughPointConstruction(), isVisible=True)
+        line = Line(definingObjects=definingObjects, constructionStrategy=LineParallelToLineThroughPointConstruction(), isVisible=True)
         self.root.addObject(line)
         self.root.redraw()
 

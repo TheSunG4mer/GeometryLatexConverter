@@ -6,6 +6,7 @@ from GUI.tools.DebugTool import DebugTool
 from GUI.tools.IntersectionTool import IntersectionTool
 from GUI.tools.LineCircleIntersectionTool import LineCircleIntersectionTool
 from GUI.tools.LineOrthogonalThroughPointTool import LineOrthogonalThroughPointTool
+from GUI.tools.LineParallelThroughPointTool import LineParallelThroughPointTool
 from GUI.tools.LineSegmentThroughPointsTool import LineSegmentThroughPointsTool
 from GUI.tools.LineThroughPointsTool import LineThroughPointsTool
 from GUI.tools.MidpointTool import MidpointTool
@@ -139,6 +140,8 @@ class GUI:
                              command=self.set_current_tool_handler(LineThroughPointsTool(self)))
         linemenu.add_command(label='Linesegment Through Two Points', 
                              command=self.set_current_tool_handler(LineSegmentThroughPointsTool(self)))
+        linemenu.add_command(label='Parallel Line Through Point', 
+                             command=self.set_current_tool_handler(LineParallelThroughPointTool(self)))
         linemenu.add_command(label='Orthogonal Line Through Point', 
                              command=self.set_current_tool_handler(LineOrthogonalThroughPointTool(self)))
         
