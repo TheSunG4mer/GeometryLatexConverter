@@ -5,6 +5,7 @@ from GUI.tools.CircleFromCenterAndPointTool import CircleFromCenterAndPointTool
 from GUI.tools.DebugTool import DebugTool
 from GUI.tools.IntersectionTool import IntersectionTool
 from GUI.tools.LineCircleIntersectionTool import LineCircleIntersectionTool
+from GUI.tools.LineSegmentThroughPointsTool import LineSegmentThroughPointsTool
 from GUI.tools.LineThroughPointsTool import LineThroughPointsTool
 from GUI.tools.PointInsertionTool import PointInsertionTool
 from GUI.tools.SelectionTool import SelectionTool
@@ -67,47 +68,13 @@ class GUI:
     def drawPoint(self, x, y, color="grey", size=5):
         self.canvas.create_oval(x - size, y - size, x + size, y + size, fill=color)
 
+    def getBoundingCoordinates(self):
+        return [[self.lowerx, self.lowery], [self.upperx, self.uppery]]
+
     def drawLineObject(self, line):
         assert isinstance(line, Line)
-        a, b, c = line.getCoefficients()
-        lowerx = self.lowerx
-        upperx = self.upperx
-        lowery = self.lowery
-        uppery = self.uppery
-
-        if b == 0:
-            x1 = c / a
-            if not lowerx <= x1 <= upperx:
-                return
-            y1 = lowery
-            y2 = uppery
-            x2 = x1
-        elif a == 0:
-            y1= c / b
-            if not lowery <= y1 <= uppery:
-                return
-            x1 = lowerx
-            x2 = upperx
-            y2 = y1 
-        else:
-            points = []
-            x = (c - b * lowery) / a
-            if lowerx <= x <= upperx:
-                points.append(x)
-                points.append(lowery)
-            x = (c - b * uppery) / a
-            if lowerx <= x <= upperx:
-                points.append(x)
-                points.append(uppery)
-            y = (c - a * lowerx) / b
-            if lowery <= y <= uppery:
-                points.append(lowerx)
-                points.append(y)
-            y = (c - a * upperx) / b
-            if lowery <= y <= uppery:
-                points.append(upperx)
-                points.append(y)
-            x1, y1, x2, y2 = points
+        
+        x1, y1, x2, y2 = line.getPlottingCoordinates(self.getBoundingCoordinates())
 
         if line in self.selectedLines:
             width = 3
@@ -171,6 +138,9 @@ class GUI:
         linemenu = tkinter.Menu(menubar, tearoff=0)
         linemenu.add_command(label='Line Through Two Points', 
                              command=self.set_current_tool_handler(self.lineThroughTwoPointsTool))
+        linemenu.add_command(label='Linesegment Through Two Points', 
+                             command=self.set_current_tool_handler(self.lineSegmentThroughTwoPointsTool))
+        
 
         circlemenu = tkinter.Menu(menubar, tearoff=0)
         circlemenu.add_command(label='Circle from Center and Point', 
@@ -258,6 +228,8 @@ class GUI:
         self.circleCircleIntersectionTool = CircleCircleIntersectionTool(self)
         
         self.lineThroughTwoPointsTool = LineThroughPointsTool(self)
+        self.lineSegmentThroughTwoPointsTool = LineSegmentThroughPointsTool(self)
+
 
         self.circleFromCenterAndPointTool = CircleFromCenterAndPointTool(self)
         

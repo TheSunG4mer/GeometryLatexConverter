@@ -1,4 +1,30 @@
 
-Circle-circle interaction.
+Optimize functionality of intersection-constructions
+
+Make half lines/line segments
+
+Further geometric constructions:
+ - Line parallel to line through point
+ - Line orthogonal to line through point
+ - Normalbisector
+ - Anglebisector
+ - CircumCenter
+ - Incenter
+ - Orthocenter
+ - Geocenter
+ - Lines tangent to circle through point
+ - Circle through 3 points
+ - Radical axis
+ - Radical center
+ - EulerLine
+ - 
 
 Zoom/move canvas functionality.
+
+Interact with objects:
+ - Color
+ - Thickness
+ - Make objects invisible
+
+
+Points snap to lines/circles.

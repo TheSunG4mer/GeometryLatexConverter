@@ -85,6 +85,62 @@ class Line(GeometricObject):
     def addChild(self, object):
         self.childObjects.append(object)
 
+    def getPlottingCoordinates(self, boundingBox):
+        a, b, c = self.getCoefficients()
+        lowerx, lowery = boundingBox[0]
+        upperx, uppery = boundingBox[1]
+
+        lowerLinex, lowerLiney = self.getBoundaries()[0]
+        upperLinex, upperLiney = self.getBoundaries()[1]
+
+        if not lowerLinex is None:
+            lowerx = max(lowerx, lowerLinex)
+        if not lowerLiney is None:
+            lowery = max(lowery, lowerLiney)
+        if not upperLinex is None:
+            upperx = min(upperx, upperLinex)
+        if not upperLiney is None:
+            uppery = min(uppery, upperLiney)
+        
+        if b == 0:
+            x1 = c / a
+            if not lowerx <= x1 <= upperx:
+                return
+            y1 = lowery
+            y2 = uppery
+            x2 = x1
+        elif a == 0:
+            y1= c / b
+            if not lowery <= y1 <= uppery:
+                return
+            x1 = lowerx
+            x2 = upperx
+            y2 = y1 
+        else:
+            xPoints = []
+            yPoints = []
+            x = (c - b * lowery) / a
+            if lowerx <= x <= upperx:
+                xPoints.append(x)
+                yPoints.append(lowery)
+            x = (c - b * uppery) / a
+            if lowerx <= x <= upperx:
+                xPoints.append(x)
+                yPoints.append(uppery)
+            y = (c - a * lowerx) / b
+            if lowery <= y <= uppery:
+                xPoints.append(lowerx)
+                yPoints.append(y)
+            y = (c - a * upperx) / b
+            if lowery <= y <= uppery:
+                xPoints.append(upperx)
+                yPoints.append(y)
+            sortedxPoints = sorted(xPoints)
+            x1, x2 = sortedxPoints[0], sortedxPoints[-1]
+            y1 = yPoints[xPoints.index(x1)]
+            y2 = yPoints[xPoints.index(x2)]
+        return x1, y1, x2, y2
+
     def __str__(self):
         a, b, c = self.getCoefficients()
         return f"Line ({a:.2f}x + {b:.2f}y = {c:.2f})"
