@@ -62,7 +62,6 @@ class ObjectFromOtherObjectTool(Tool):
             self.root.clearSelectedObjects()
     
     def hasRightObjects(self, objectTally):
-
         combinedObjectCounter = list(zip(objectTally, self.requiredObjects))
         return all([actual == required for actual, required in combinedObjectCounter])
     

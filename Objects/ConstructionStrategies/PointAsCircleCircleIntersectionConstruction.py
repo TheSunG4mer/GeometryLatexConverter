@@ -20,6 +20,10 @@ class PointAsCircleCircleIntersectionConstruction(ConstructionStrategy):
         x2, y2 = C2.getCoordinates()
         r1, r2 = circle1.getRadius(), circle2.getRadius()
         d = ((x2 - x1)**2 + (y2 - y1)**2)**0.5
+
+        if d > r1 + r2 or r1 > d + r2 or r2 > d + r1:
+            return None, None
+
         D = (r1 ** 2 - r2 ** 2 + d ** 2) / (2 * d)
         orthoLength = (r1 ** 2 - D ** 2) ** 0.5
 

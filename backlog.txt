@@ -1,5 +1,5 @@
 
-Optimize functionality of intersection-constructions
+Generalize functionality of intersection-constructions
 
 Make half lines/line segments
 
