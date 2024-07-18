@@ -9,9 +9,12 @@ Further geometric constructions:
  - Geocenter
  - Lines tangent to circle through point
  - Circle through 3 points
+
+Maybe I should add these?:
  - Radical axis
  - Radical center
  - EulerLine
+ - Nine point circle
 
 Zoom/move canvas functionality.
 
