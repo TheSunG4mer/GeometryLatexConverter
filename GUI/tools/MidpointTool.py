@@ -1,7 +1,5 @@
 from GUI.tools.ObjectFromOtherObjectTool import ObjectFromOtherObjectTool
 from Objects.ConstructionStrategies.PointAsMidpointConstruction import PointAsMidpointConstruction
-from Objects.ConstructionStrategies.PointIntersectionOfLineAndCircleConstruction import PointIntersectionOfLineAndCircleConstruction
-from Objects.ConstructionStrategies.PointIntersectionOfTwoLines import PointIntersectionOfTwoLinesConstruction
 from Objects.Point import Point
 
 

@@ -5,6 +5,7 @@ from GUI.tools.CircleFromCenterAndPointTool import CircleFromCenterAndPointTool
 from GUI.tools.DebugTool import DebugTool
 from GUI.tools.IntersectionTool import IntersectionTool
 from GUI.tools.LineCircleIntersectionTool import LineCircleIntersectionTool
+from GUI.tools.LineOrthogonalThroughPointTool import LineOrthogonalThroughPointTool
 from GUI.tools.LineSegmentThroughPointsTool import LineSegmentThroughPointsTool
 from GUI.tools.LineThroughPointsTool import LineThroughPointsTool
 from GUI.tools.MidpointTool import MidpointTool
@@ -17,7 +18,6 @@ from Objects.Point import Point
 
 SMALLRADIUS = 4
 RADIUS = 5
-LARGERADIUS = 7
 TOLERANCE = 10
 
 
@@ -139,6 +139,9 @@ class GUI:
                              command=self.set_current_tool_handler(LineThroughPointsTool(self)))
         linemenu.add_command(label='Linesegment Through Two Points', 
                              command=self.set_current_tool_handler(LineSegmentThroughPointsTool(self)))
+        linemenu.add_command(label='Orthogonal Line Through Point', 
+                             command=self.set_current_tool_handler(LineOrthogonalThroughPointTool(self)))
+        
         
 
         circlemenu = tkinter.Menu(menubar, tearoff=0)
@@ -217,25 +220,10 @@ class GUI:
         self.lowery = 0
         self.uppery = 600
 
-        # Creating tools for use.
-        """self.selectionTool = SelectionTool(self)
-        self.debugTool = DebugTool(self)
-
-        self.pointInsertionTool = PointInsertionTool(self)
-        self.intersectionTool = IntersectionTool(self)
-        
-        self.lineThroughTwoPointsTool = LineThroughPointsTool(self)
-        self.lineSegmentThroughTwoPointsTool = LineSegmentThroughPointsTool(self)
-
-
-        self.circleFromCenterAndPointTool = CircleFromCenterAndPointTool(self)"""
-        
-        
         self.currentTool = SelectionTool(self)
 
         self.smallPointSize = SMALLRADIUS
         self.largePointSize = RADIUS
-        self.veryLargePointSize = LARGERADIUS
         self.tolerance = TOLERANCE
 
 
