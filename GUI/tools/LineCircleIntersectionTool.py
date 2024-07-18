@@ -1,7 +1,3 @@
-
-
-
-
 from GUI.tools.ObjectFromOtherObjectTool import ObjectFromOtherObjectTool
 from Objects.ConstructionStrategies.PointIntersectionOfLineAndCircleConstruction import PointIntersectionOfLineAndCircleConstruction
 from Objects.ConstructionStrategies.PointIntersectionOfTwoLines import PointIntersectionOfTwoLinesConstruction

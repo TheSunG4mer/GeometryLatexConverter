@@ -7,6 +7,7 @@ from GUI.tools.IntersectionTool import IntersectionTool
 from GUI.tools.LineCircleIntersectionTool import LineCircleIntersectionTool
 from GUI.tools.LineSegmentThroughPointsTool import LineSegmentThroughPointsTool
 from GUI.tools.LineThroughPointsTool import LineThroughPointsTool
+from GUI.tools.MidpointTool import MidpointTool
 from GUI.tools.PointInsertionTool import PointInsertionTool
 from GUI.tools.SelectionTool import SelectionTool
 from Objects.Circle import Circle
@@ -120,31 +121,29 @@ class GUI:
 
         movemenu = tkinter.Menu(menubar, tearoff=0)
         movemenu.add_command(label="Move", 
-                             command=self.set_current_tool_handler(self.selectionTool))
+                             command=self.set_current_tool_handler(SelectionTool(self)))
         movemenu.add_command(label="Debug Tool", 
-                             command=self.set_current_tool_handler(self.debugTool))
+                             command=self.set_current_tool_handler(DebugTool(self)))
         
         pointmenu = tkinter.Menu(menubar, tearoff=0)
         pointmenu.add_command(label='Point', 
-                              command=self.set_current_tool_handler(self.pointInsertionTool))
+                              command=self.set_current_tool_handler(PointInsertionTool(self)))
         pointmenu.add_command(label='Intersection', 
-                              command=self.set_current_tool_handler(self.intersectionTool))
-        pointmenu.add_command(label='LineCircleIntersection', 
-                              command=self.set_current_tool_handler(self.lineCircleIntersectionTool))
-        pointmenu.add_command(label='CircleCircleIntersection', 
-                              command=self.set_current_tool_handler(self.circleCircleIntersectionTool))
-        
+                              command=self.set_current_tool_handler(IntersectionTool(self)))
+        pointmenu.add_command(label='Midpoint', 
+                              command=self.set_current_tool_handler(MidpointTool(self)))
+            
 
         linemenu = tkinter.Menu(menubar, tearoff=0)
         linemenu.add_command(label='Line Through Two Points', 
-                             command=self.set_current_tool_handler(self.lineThroughTwoPointsTool))
+                             command=self.set_current_tool_handler(LineThroughPointsTool(self)))
         linemenu.add_command(label='Linesegment Through Two Points', 
-                             command=self.set_current_tool_handler(self.lineSegmentThroughTwoPointsTool))
+                             command=self.set_current_tool_handler(LineSegmentThroughPointsTool(self)))
         
 
         circlemenu = tkinter.Menu(menubar, tearoff=0)
         circlemenu.add_command(label='Circle from Center and Point', 
-                               command=self.set_current_tool_handler(self.circleFromCenterAndPointTool))
+                               command=self.set_current_tool_handler(CircleFromCenterAndPointTool(self)))
 
         colormenu = tkinter.Menu(menubar, tearoff=0)
         for color in self.colors: # list of color names
@@ -219,22 +218,20 @@ class GUI:
         self.uppery = 600
 
         # Creating tools for use.
-        self.selectionTool = SelectionTool(self)
+        """self.selectionTool = SelectionTool(self)
         self.debugTool = DebugTool(self)
 
         self.pointInsertionTool = PointInsertionTool(self)
         self.intersectionTool = IntersectionTool(self)
-        self.lineCircleIntersectionTool = LineCircleIntersectionTool(self)
-        self.circleCircleIntersectionTool = CircleCircleIntersectionTool(self)
         
         self.lineThroughTwoPointsTool = LineThroughPointsTool(self)
         self.lineSegmentThroughTwoPointsTool = LineSegmentThroughPointsTool(self)
 
 
-        self.circleFromCenterAndPointTool = CircleFromCenterAndPointTool(self)
+        self.circleFromCenterAndPointTool = CircleFromCenterAndPointTool(self)"""
         
         
-        self.currentTool = self.selectionTool
+        self.currentTool = SelectionTool(self)
 
         self.smallPointSize = SMALLRADIUS
         self.largePointSize = RADIUS
