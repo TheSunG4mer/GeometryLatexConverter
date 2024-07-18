@@ -10,6 +10,7 @@ from GUI.tools.LineParallelThroughPointTool import LineParallelThroughPointTool
 from GUI.tools.LineSegmentThroughPointsTool import LineSegmentThroughPointsTool
 from GUI.tools.LineThroughPointsTool import LineThroughPointsTool
 from GUI.tools.MidpointTool import MidpointTool
+from GUI.tools.PerpendicularBisectorTool import PerpendicularBisectorTool
 from GUI.tools.PointInsertionTool import PointInsertionTool
 from GUI.tools.SelectionTool import SelectionTool
 from Objects.Circle import Circle
@@ -144,6 +145,8 @@ class GUI:
                              command=self.set_current_tool_handler(LineParallelThroughPointTool(self)))
         linemenu.add_command(label='Orthogonal Line Through Point', 
                              command=self.set_current_tool_handler(LineOrthogonalThroughPointTool(self)))
+        linemenu.add_command(label='Perpendicular Bisector', 
+                             command=self.set_current_tool_handler(PerpendicularBisectorTool(self)))
         
         
 

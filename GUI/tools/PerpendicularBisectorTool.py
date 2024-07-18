@@ -1,22 +1,23 @@
 from GUI.tools.ObjectFromOtherObjectTool import ObjectFromOtherObjectTool
 from Objects.ConstructionStrategies.LineOrthogonalToLineThroughPointConstruction import LineOrthogonalToLineThroughPointConstruction
 from Objects.ConstructionStrategies.LineParallelToLineThroughPointConstruction import LineParallelToLineThroughPointConstruction
+from Objects.ConstructionStrategies.PerpendicularBisectorConstruction import PerpendicularBisectorConstruction
 from Objects.Line import Line
 
 
-class LineParallelThroughPointTool(ObjectFromOtherObjectTool):
+class PerpendicularBisectorTool(ObjectFromOtherObjectTool):
     def __init__(self, root):
         super().__init__(root)
-        self.requiredObjects = [1,1,0]
+        self.requiredObjects = [2,0,0]
     
     def __str__(self):
-        return "Parallel Line Tool"
+        return "Perpendicular Bisector Tool"
     
     def createObject(self):
         points, lines, circles = self.root.getSelectedSortedObjects()
-        definingObjects = [points[0], lines[0]]
+        definingObjects = [points[0], points[1]]
 
-        line = Line(definingObjects=definingObjects, constructionStrategy=LineParallelToLineThroughPointConstruction(), isVisible=True)
+        line = Line(definingObjects=definingObjects, constructionStrategy=PerpendicularBisectorConstruction(), isVisible=True)
         self.root.addObject(line)
         self.root.redraw()
 
