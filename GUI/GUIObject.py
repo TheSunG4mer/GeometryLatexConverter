@@ -11,6 +11,7 @@ from GUI.tools.LineSegmentThroughPointsTool import LineSegmentThroughPointsTool
 from GUI.tools.LineThroughPointsTool import LineThroughPointsTool
 from GUI.tools.MidpointTool import MidpointTool
 from GUI.tools.PerpendicularBisectorTool import PerpendicularBisectorTool
+from GUI.tools.PointAsProjectionOfPointToLineTool import PointAsProjectionOfPointToLineTool
 from GUI.tools.PointInsertionTool import PointInsertionTool
 from GUI.tools.SelectionTool import SelectionTool
 from Objects.Circle import Circle
@@ -134,7 +135,8 @@ class GUI:
                               command=self.set_current_tool_handler(IntersectionTool(self)))
         pointmenu.add_command(label='Midpoint', 
                               command=self.set_current_tool_handler(MidpointTool(self)))
-            
+        pointmenu.add_command(label='Projection of Point to Line', 
+                              command=self.set_current_tool_handler(PointAsProjectionOfPointToLineTool(self)))
 
         linemenu = tkinter.Menu(menubar, tearoff=0)
         linemenu.add_command(label='Line Through Two Points', 

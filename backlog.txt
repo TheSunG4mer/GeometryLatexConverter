@@ -2,8 +2,6 @@
 Make half lines
 
 Further geometric constructions:
- - Line parallel to line through point
- - Normalbisector
  - Anglebisector
  - CircumCenter
  - Incenter
