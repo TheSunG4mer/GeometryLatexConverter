@@ -2,6 +2,7 @@ import tkinter
 
 from GUI.tools.CircleCircleIntersectionTool import CircleCircleIntersectionTool
 from GUI.tools.CircleFromCenterAndPointTool import CircleFromCenterAndPointTool
+from GUI.tools.CircleThroughThreePointsTool import CircleThroughThreePointsTool
 from GUI.tools.CircumCenterTool import CircumCenterTool
 from GUI.tools.DebugTool import DebugTool
 from GUI.tools.GeocenterTool import GeocenterTool
@@ -157,6 +158,8 @@ class GUI:
         circlemenu = tkinter.Menu(menubar, tearoff=0)
         circlemenu.add_command(label='Circle from Center and Point', 
                                command=self.set_current_tool_handler(CircleFromCenterAndPointTool(self)))
+        circlemenu.add_command(label='Circle Through Three Points', 
+                               command=self.set_current_tool_handler(CircleThroughThreePointsTool(self)))
 
         triangleCenterMenu = tkinter.Menu(menubar, tearoff=0)
         triangleCenterMenu.add_command(label='Circumcenter',
