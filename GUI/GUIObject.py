@@ -1,5 +1,6 @@
 import tkinter
 
+from GUI.tools.AngleBisectorTool import AngleBisectorTool
 from GUI.tools.CircleCircleIntersectionTool import CircleCircleIntersectionTool
 from GUI.tools.CircleFromCenterAndPointTool import CircleFromCenterAndPointTool
 from GUI.tools.CircleThroughThreePointsTool import CircleThroughThreePointsTool
@@ -155,6 +156,8 @@ class GUI:
                              command=self.set_current_tool_handler(LineOrthogonalThroughPointTool(self)))
         linemenu.add_command(label='Perpendicular Bisector', 
                              command=self.set_current_tool_handler(PerpendicularBisectorTool(self)))
+        linemenu.add_command(label='Angle Bisector', 
+                             command=self.set_current_tool_handler(AngleBisectorTool(self)))
         
         
 
