@@ -6,7 +6,6 @@ Further geometric constructions:
  - CircumCenter (Done but could be optimized)
  - Incenter
  - Orthocenter
- - Geocenter
  - Lines tangent to circle through point
  - Circle through 3 points
 

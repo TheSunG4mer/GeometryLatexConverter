@@ -1,9 +1,9 @@
 from GUI.tools.ObjectFromOtherObjectTool import ObjectFromOtherObjectTool
-from Objects.ConstructionStrategies.CircumCenterConstruction import CircumCenterConstruction
+from Objects.ConstructionStrategies.GeocenterConstruction import GeocenterConstruction
 from Objects.Point import Point
 
 
-class CircumCenterTool(ObjectFromOtherObjectTool):
+class GeocenterTool(ObjectFromOtherObjectTool):
     def __init__(self, root):
         super().__init__(root)
         self.requiredObjects = [3,0,0]
@@ -15,7 +15,7 @@ class CircumCenterTool(ObjectFromOtherObjectTool):
         points, lines, circles = self.root.getSelectedSortedObjects()
         definingObjects = [points[0], points[1], points[2]]
 
-        point = Point(definingObjects=definingObjects, constructionStrategy=CircumCenterConstruction(), isVisible=True)
+        point = Point(definingObjects=definingObjects, constructionStrategy=GeocenterConstruction(), isVisible=True)
         self.root.addObject(point)
         self.root.redraw()
 

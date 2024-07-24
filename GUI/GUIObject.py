@@ -4,6 +4,7 @@ from GUI.tools.CircleCircleIntersectionTool import CircleCircleIntersectionTool
 from GUI.tools.CircleFromCenterAndPointTool import CircleFromCenterAndPointTool
 from GUI.tools.CircumCenterTool import CircumCenterTool
 from GUI.tools.DebugTool import DebugTool
+from GUI.tools.GeocenterTool import GeocenterTool
 from GUI.tools.IntersectionTool import IntersectionTool
 from GUI.tools.LineCircleIntersectionTool import LineCircleIntersectionTool
 from GUI.tools.LineOrthogonalThroughPointTool import LineOrthogonalThroughPointTool
@@ -160,6 +161,8 @@ class GUI:
         triangleCenterMenu = tkinter.Menu(menubar, tearoff=0)
         triangleCenterMenu.add_command(label='Circumcenter',
                                 command=self.set_current_tool_handler(CircumCenterTool(self)))
+        triangleCenterMenu.add_command(label='Geocumcenter',
+                                command=self.set_current_tool_handler(GeocenterTool(self)))
 
         colormenu = tkinter.Menu(menubar, tearoff=0)
         for color in self.colors: # list of color names
