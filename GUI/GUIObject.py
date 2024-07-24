@@ -6,6 +6,7 @@ from GUI.tools.CircleThroughThreePointsTool import CircleThroughThreePointsTool
 from GUI.tools.CircumCenterTool import CircumCenterTool
 from GUI.tools.DebugTool import DebugTool
 from GUI.tools.GeocenterTool import GeocenterTool
+from GUI.tools.HalfLineTool import HalfLineTool
 from GUI.tools.IntersectionTool import IntersectionTool
 from GUI.tools.LineCircleIntersectionTool import LineCircleIntersectionTool
 from GUI.tools.LineOrthogonalThroughPointTool import LineOrthogonalThroughPointTool
@@ -146,6 +147,8 @@ class GUI:
                              command=self.set_current_tool_handler(LineThroughPointsTool(self)))
         linemenu.add_command(label='Linesegment Through Two Points', 
                              command=self.set_current_tool_handler(LineSegmentThroughPointsTool(self)))
+        linemenu.add_command(label='Halfline Through Two Points', 
+                             command=self.set_current_tool_handler(HalfLineTool(self)))
         linemenu.add_command(label='Parallel Line Through Point', 
                              command=self.set_current_tool_handler(LineParallelThroughPointTool(self)))
         linemenu.add_command(label='Orthogonal Line Through Point', 

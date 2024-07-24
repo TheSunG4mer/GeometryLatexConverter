@@ -7,7 +7,6 @@ Further geometric constructions:
  - Incenter
  - Orthocenter
  - Lines tangent to circle through point
- - Circle through 3 points
 
 Maybe I should add these?:
  - Radical axis

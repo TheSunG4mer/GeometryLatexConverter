@@ -9,7 +9,7 @@ class GeocenterTool(ObjectFromOtherObjectTool):
         self.requiredObjects = [3,0,0]
     
     def __str__(self):
-        return "Circum Center Tool"
+        return "Geocenter Tool"
     
     def createObject(self):
         points, lines, circles = self.root.getSelectedSortedObjects()
