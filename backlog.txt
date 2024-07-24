@@ -3,7 +3,7 @@ Make half lines
 
 Further geometric constructions:
  - Anglebisector
- - CircumCenter
+ - CircumCenter (Done but could be optimized)
  - Incenter
  - Orthocenter
  - Geocenter

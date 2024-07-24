@@ -2,6 +2,7 @@ import tkinter
 
 from GUI.tools.CircleCircleIntersectionTool import CircleCircleIntersectionTool
 from GUI.tools.CircleFromCenterAndPointTool import CircleFromCenterAndPointTool
+from GUI.tools.CircumCenterTool import CircumCenterTool
 from GUI.tools.DebugTool import DebugTool
 from GUI.tools.IntersectionTool import IntersectionTool
 from GUI.tools.LineCircleIntersectionTool import LineCircleIntersectionTool
@@ -156,6 +157,10 @@ class GUI:
         circlemenu.add_command(label='Circle from Center and Point', 
                                command=self.set_current_tool_handler(CircleFromCenterAndPointTool(self)))
 
+        triangleCenterMenu = tkinter.Menu(menubar, tearoff=0)
+        triangleCenterMenu.add_command(label='Circumcenter',
+                                command=self.set_current_tool_handler(CircumCenterTool(self)))
+
         colormenu = tkinter.Menu(menubar, tearoff=0)
         for color in self.colors: # list of color names
             colormenu.add_command(label=color,
@@ -164,6 +169,7 @@ class GUI:
         menubar.add_cascade(label='Points', menu=pointmenu)
         menubar.add_cascade(label='Lines', menu=linemenu)
         menubar.add_cascade(label='Circles', menu=circlemenu)
+        menubar.add_cascade(label='Triangle Centers', menu=triangleCenterMenu)
         menubar.add_cascade(label='Color', menu=colormenu)
         self.root.config(menu=menubar) # Show menubar
 

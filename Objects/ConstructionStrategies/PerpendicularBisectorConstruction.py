@@ -11,8 +11,6 @@ class PerpendicularBisectorConstruction(ConstructionStrategy):
         point1, point2 = definingObjects
         assert isinstance(point1, Point)
         assert isinstance(point2, Point)
-        x1, y1 = point1.getCoordinates()
-        x2, y2 = point1.getCoordinates()
 
         l = Line(definingObjects=[point1, point2], constructionStrategy=LineThroughTwoPointsConstruction())
         M = Point(definingObjects=[point1, point2], constructionStrategy=PointAsMidpointConstruction())
