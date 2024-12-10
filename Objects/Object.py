@@ -12,3 +12,6 @@ class GeometricObject:
 
     def isClose(self, x, y, tolerance):
         return False
+    
+    def exists(self):
+        pass

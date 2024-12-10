@@ -30,6 +30,9 @@ RADIUS = 5
 TOLERANCE = 10
 
 
+CANVAS_WIDTH = 1000
+CANVAS_HEIGHT = 600
+
 class GUI:
     def do_clear(self):
         self.objects.clear()
@@ -120,15 +123,15 @@ class GUI:
         """
         Convert canvas coordinates to internal coordinates
         """
-        alphax = x / 1000
-        alphay = y / 600
+        alphax = x / CANVAS_WIDTH
+        alphay = y / CANVAS_HEIGHT
         return (self.lowerx + alphax * (self.upperx - self.lowerx), self.lowery + alphay * (self.uppery - self.lowery))
 
     def canvas_distance_to_internal_distance(self, distance):
         """
         Convert canvas distance to internal distance
         """
-        return distance * (self.upperx - self.lowerx) / 1000
+        return distance * (self.upperx - self.lowerx) / CANVAS_WIDTH
 
     def internal_coords_to_canvas_coords(self, x, y):
         """
@@ -136,13 +139,13 @@ class GUI:
         """
         alphax = (x - self.lowerx) / (self.upperx - self.lowerx)
         alphay = (y - self.lowery) / (self.uppery - self.lowery)
-        return (1000 * alphax, 600 * alphay)
+        return (CANVAS_WIDTH * alphax, CANVAS_HEIGHT * alphay)
 
     def internal_distance_to_canvas_distance(self, distance):
         """
         Convert internal distance to canvas distance
         """
-        return distance * 1000 / (self.upperx - self.lowerx)
+        return distance * CANVAS_WIDTH / (self.upperx - self.lowerx)
 
     def moveCanvas(self, dx, dy):
         self.lowerx -= dx
@@ -150,8 +153,29 @@ class GUI:
         self.lowery -= dy
         self.uppery -= dy
     
-    def print_junk(self):
-        print("Junk")
+    def zoom(self, event):
+        if event.delta > 0:
+            self.zoom_in(event)
+        else:
+            self.zoom_out(event)
+
+    def zoom_in(self, event):
+        x, y = event.x, event.y
+        x, y = self.canvas_coords_to_internal_coors(x, y)
+        self.lowerx = x + 0.9 * (self.lowerx - x)
+        self.upperx = x + 0.9 * (self.upperx - x)
+        self.lowery = y + 0.9 * (self.lowery - y)
+        self.uppery = y + 0.9 * (self.uppery - y)
+        self.redraw()
+    
+    def zoom_out(self, event):
+        x, y = event.x, event.y
+        x, y = self.canvas_coords_to_internal_coors(x, y)
+        self.lowerx = x + 1.1 * (self.lowerx - x)
+        self.upperx = x + 1.1 * (self.upperx - x)
+        self.lowery = y + 1.1 * (self.lowery - y)
+        self.uppery = y + 1.1 * (self.uppery - y)
+        self.redraw()
 
     def redraw(self):
         self.canvas.delete('all')
@@ -251,9 +275,9 @@ class GUI:
 
     def reset_view(self):
         self.lowerx = 0
-        self.upperx = 1000
+        self.upperx = CANVAS_WIDTH
         self.lowery = 0
-        self.uppery = 600
+        self.uppery = CANVAS_HEIGHT
         self.redraw()
 
     def getTolerance(self):
@@ -305,9 +329,9 @@ class GUI:
         root.resizable(False, False)
 
         self.lowerx = 0
-        self.upperx = 1000
+        self.upperx = CANVAS_WIDTH
         self.lowery = 0
-        self.uppery = 600
+        self.uppery = CANVAS_HEIGHT
 
         self.currentTool = SelectionTool(self)
 
@@ -324,7 +348,7 @@ class GUI:
         #                                variable=self.show_ch, command=self.redraw)
         # checkbox.grid(row=0, column=2)
 
-        canvas = tkinter.Canvas(root, width=1000, height=600, background='lightgrey')
+        canvas = tkinter.Canvas(root, width=CANVAS_WIDTH, height=CANVAS_HEIGHT, background='lightgrey')
         canvas.grid(row=1, column=0, columnspan=3)
         canvas.bind('<Button-1>', self.do_click)
         canvas.bind('<B1-Motion>', self.do_drag)
@@ -332,6 +356,7 @@ class GUI:
         canvas.bind('<Control-Button-1>', self.do_click_ctrl)
         canvas.bind('<Control-B1-Motion>', self.do_drag_ctrl)
         canvas.bind('<Control-ButtonRelease-1>', self.do_release_ctrl)
+        canvas.bind('<MouseWheel>', self.zoom)
         self.canvas = canvas
 
         self.create_menu()

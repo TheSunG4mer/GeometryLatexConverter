@@ -21,7 +21,7 @@ class SelectionTool(Tool):
         tolerance = self.root.getTolerance()
 
         for object in self.root.objects:
-            if object.isClose(x, y, tolerance):
+            if object.exists() and object.isClose(x, y, tolerance):
                 selectedObject = object
                 break
         else:
