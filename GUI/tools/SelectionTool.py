@@ -9,6 +9,7 @@ class SelectionTool(Tool):
     def __init__(self, root):
         self.root = root
         self.selectedObject = None
+        self.x, self.y = None, None
 
     def do_click(self, event, extraButton=None):
         if extraButton is None:
@@ -26,6 +27,7 @@ class SelectionTool(Tool):
 
         print(selectedObject)       #For debugging 
         self.selectedObject = selectedObject
+        self.x, self.y = x, y
         self.root.addSelectedObject(selectedObject)
 
         self.root.redraw()
@@ -42,6 +44,11 @@ class SelectionTool(Tool):
                 newChildren = obj.correctPosition()
                 objectsToBeUpdated.extend(newChildren)
         
+        elif self.selectedObject is None:
+            dx, dy = x - self.x, y - self.y
+            self.root.moveCanvas(dx, dy)
+            self.x, self.y = x, y
+
         
         self.root.redraw()
 
@@ -50,6 +57,7 @@ class SelectionTool(Tool):
         if not extraButton == "ctrl":
             self.root.clearSelectedObjects()
         self.selectedObject = None
+        self.x, self.y = None, None
         self.root.redraw()
 
     def __str__(self):

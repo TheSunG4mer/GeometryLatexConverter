@@ -144,6 +144,13 @@ class GUI:
         """
         return distance * 1000 / (self.upperx - self.lowerx)
 
+    def moveCanvas(self, dx, dy):
+        self.lowerx -= dx
+        self.upperx -= dx
+        self.lowery -= dy
+        self.uppery -= dy
+
+
     def redraw(self):
         self.canvas.delete('all')
         
