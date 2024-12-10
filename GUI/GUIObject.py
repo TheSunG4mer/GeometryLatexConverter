@@ -66,26 +66,26 @@ class GUI:
 
     def drawPointObject(self, point):
         x, y = point.getCoordinates()
-        color = "grey"
         if not point.free():
-            size = self.smallPointSize
+            outline = "black"
         else:
-            size = self.largePointSize
+            outline = "blue"
         
         if point in self.selectedObjects:
-            color = "blue"
+            size = self.largePointSize
+        else:
+            size = self.smallPointSize
+            
+        color = point.getColor() if point.getColor() is not None else "black"
 
-        if point.getColor() is not None:
-            color = point.getColor()
-
-        self.drawPoint(x, y, color=color, size=size)
+        self.drawPoint(x, y, color=color, size=size, outline=outline)
 
 
-    def drawPoint(self, x, y, color="grey", size=5):
+    def drawPoint(self, x, y, color="grey", outline = "black", size=5):
         x, y = self.internal_coords_to_canvas_coords(x, y)
 
         # convert to canvas coordinates
-        self.canvas.create_oval(x - size, y - size, x + size, y + size, fill=color)
+        self.canvas.create_oval(x - size, y - size, x + size, y + size, fill=color, outline=outline)
 
     def getBoundingCoordinates(self):
         return [[self.lowerx, self.lowery], [self.upperx, self.uppery]]
