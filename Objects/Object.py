@@ -21,3 +21,27 @@ class GeometricObject:
 
     def getColor(self):
         pass
+
+    def setLabel(self, label):
+        pass
+
+    def getLabel(self):
+        pass
+
+    def setLabelDirection(self, labelDirection):
+        pass
+
+    def getLabelDirection(self):
+        pass
+
+    def setLabelDistance(self, labelDistance):
+        pass
+
+    def getLabelDistance(self):
+        pass
+
+    def setLabelVisibility(self, isVisible):
+        pass
+
+    def getLabelVisibility(self):
+        True

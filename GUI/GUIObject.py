@@ -33,6 +33,8 @@ TOLERANCE = 10
 CANVAS_WIDTH = 1000
 CANVAS_HEIGHT = 600
 
+BUTTON_WIDTH = 5
+
 class GUI:
     def do_clear(self):
         self.objects.clear()
@@ -75,7 +77,7 @@ class GUI:
             size = self.largePointSize
         else:
             size = self.smallPointSize
-            
+
         color = point.getColor() if point.getColor() is not None else "black"
 
         self.drawPoint(x, y, color=color, size=size, outline=outline)
@@ -326,6 +328,11 @@ class GUI:
             object.setColor(color)
         self.redraw()
 
+    def setLabelDirection(self, direction):
+        if len(self.selectedObjects) != 1:
+            return
+        self.selectedObjects[0].setLabelDirection(direction)
+
 
     def __init__(self, root):
         self.root = root
@@ -364,16 +371,34 @@ class GUI:
         canvas = tkinter.Canvas(root, width=CANVAS_WIDTH, height=CANVAS_HEIGHT, background='lightgrey')
         canvas.grid(row=1, column=0, rowspan = 30, columnspan=3)
         
-        menu_text = tkinter.Label(root, text='Object Menu', width = 30)
+        menu_text = tkinter.Label(root, text='Object Menu', width = 5 * BUTTON_WIDTH)
         menu_text.grid(row=0, column=3, columnspan = 5,  sticky='W')
+
+
+###################################### Color Menu ########################################
 
         color_text = tkinter.Label(root, text='Choose color', width = 30)
         color_text.grid(row=1, column=3, columnspan = 5,  sticky='W')
 
-
         for i, color in enumerate(self.colors):
-            button = tkinter.Button(root, background=color, command=lambda color=color: self.setColor(color))
+            button = tkinter.Button(root, background=color, width = BUTTON_WIDTH, command=lambda color=color: self.setColor(color))
             button.grid(row=2 + i // 5, column=3 + (i % 5), sticky='NSEW')
+
+###################################### Label Menu ########################################
+
+        label_text = tkinter.Label(root, text='Label', width = 30)
+        label_text.grid(row=4, column=3, columnspan = 5,  sticky='W')
+
+        for i, direction in enumerate(["NW", "N", "NE", "W", "C", "E", "SW", "S", "SE"]):
+            if direction == "C":
+                label_writer = tkinter.Entry(root, width = BUTTON_WIDTH)
+                label_writer.grid(row=6, column=5, sticky='NSEW')
+                continue
+
+            button = tkinter.Button(root, text=direction, width = BUTTON_WIDTH, command=lambda direction=direction: self.setLabelDirection(direction))
+            button.grid(row=5 + i // 3, column=4 + (i % 3), sticky='NSEW')
+        
+
 
         canvas.bind('<Button-1>', self.do_click)
         canvas.bind('<B1-Motion>', self.do_drag)

@@ -10,6 +10,11 @@ class Point(GeometricObject):
         self.name = name
         self.isVisible = isVisible
         self.color = None
+
+        self.label = None
+        self.labelDirection = None
+        self.labelDistance = 5
+        self.labelIsVisible = True
         
         
         if not definingObjects:
@@ -82,6 +87,30 @@ class Point(GeometricObject):
     def getColor(self):
         return self.color
     
+    def setLabel(self, label):
+        self.label = label
+
+    def getLabel(self):
+        return self.label
+
+    def setLabelDirection(self, labelDirection):
+        self.labelDirection = labelDirection
+
+    def getLabelDirection(self):
+        return self.labelDirection
+
+    def setLabelDistance(self, labelDistance):
+        self.labelDistance = labelDistance
+
+    def getLabelDistance(self):
+        return self.labelDistance
+
+    def setLabelVisibility(self, isVisible):
+        self.labelIsVisible = isVisible
+
+    def getLabelVisibility(self):
+        return self.labelIsVisible
+
     def __str__(self):
         x,y = self.getCoordinates()
         return f"Point ({x}, {y})"
