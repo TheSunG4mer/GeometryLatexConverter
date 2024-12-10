@@ -4,6 +4,8 @@ from collections import deque
 from GUI.tools.ToolInterface import Tool
 from Objects.Point import Point
 
+def dist2(x1, y1, x2, y2):
+    return ((x1 - x2)**2 + (y1 - y2)**2)
 
 class SelectionTool(Tool):
     def __init__(self, root):
@@ -47,7 +49,7 @@ class SelectionTool(Tool):
         elif self.selectedObject is None:
             dx, dy = x - self.x, y - self.y
             self.root.moveCanvas(dx, dy)
-            self.x, self.y = x, y
+            self.x, self.y = self.root.canvas_coords_to_internal_coors(event.x, event.y)
 
         
         self.root.redraw()

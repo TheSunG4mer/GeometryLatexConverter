@@ -149,7 +149,9 @@ class GUI:
         self.upperx -= dx
         self.lowery -= dy
         self.uppery -= dy
-
+    
+    def print_junk(self):
+        print("Junk")
 
     def redraw(self):
         self.canvas.delete('all')
@@ -178,6 +180,8 @@ class GUI:
                             command=self.set_current_tool_handler(SelectionTool(self)))
         movemenu.add_command(label="Debug Tool", 
                             command=self.set_current_tool_handler(DebugTool(self)))
+        movemenu.add_command(label="Reset view", 
+                            command=self.reset_view_handler())
         
         pointmenu = tkinter.Menu(menubar, tearoff=0)
         pointmenu.add_command(label='Point', 
@@ -240,6 +244,17 @@ class GUI:
         print(f"Active tool: {tool}")
         self.currentTool = tool
         tool.tryCreatingObject()
+
+    
+    def reset_view_handler(self):
+        return lambda : self.reset_view()
+
+    def reset_view(self):
+        self.lowerx = 0
+        self.upperx = 1000
+        self.lowery = 0
+        self.uppery = 600
+        self.redraw()
 
     def getTolerance(self):
         return self.tolerance

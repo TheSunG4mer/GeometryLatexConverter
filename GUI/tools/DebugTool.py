@@ -10,6 +10,8 @@ class DebugTool(Tool):
 
     def do_click(self, event, extraButton=None):
         print([str(x) for x in self.root.objects])
+        print(f"x values: {self.root.lowerx}, {self.root.upperx}")
+        print(f"y values: {self.root.lowery}, {self.root.uppery}")
 
     def do_drag(self, event, extraButton=None):
         pass
