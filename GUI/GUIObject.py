@@ -76,6 +76,9 @@ class GUI:
 
 
     def drawPoint(self, x, y, color="grey", size=5):
+        x, y = self.internal_coords_to_canvas_coords(x, y)
+
+        # convert to canvas coordinates
         self.canvas.create_oval(x - size, y - size, x + size, y + size, fill=color)
 
     def getBoundingCoordinates(self):
@@ -85,6 +88,10 @@ class GUI:
         assert isinstance(line, Line)
         
         x1, y1, x2, y2 = line.getPlottingCoordinates(self.getBoundingCoordinates())
+
+        # convert to canvas coordinates
+        x1, y1 = self.internal_coords_to_canvas_coords(x1, y1)
+        x2, y2 = self.internal_coords_to_canvas_coords(x2, y2)
 
         if line in self.selectedLines:
             width = 3
@@ -102,6 +109,11 @@ class GUI:
             width = 3
         else:
             width = 2
+        
+        # convert to canvas coordinates
+        x, y = self.internal_coords_to_canvas_coords(x, y)
+        radius = self.internal_distance_to_canvas_distance(radius)
+
         self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, width=width)
 
     def canvas_coords_to_internal_coors(self, x, y):
@@ -112,6 +124,12 @@ class GUI:
         alphay = y / 600
         return (self.lowerx + alphax * (self.upperx - self.lowerx), self.lowery + alphay * (self.uppery - self.lowery))
 
+    def canvas_distance_to_internal_distance(self, distance):
+        """
+        Convert canvas distance to internal distance
+        """
+        return distance * (self.upperx - self.lowerx) / 1000
+
     def internal_coords_to_canvas_coords(self, x, y):
         """
         Convert internal coordinates to canvas coordinates
@@ -119,6 +137,12 @@ class GUI:
         alphax = (x - self.lowerx) / (self.upperx - self.lowerx)
         alphay = (y - self.lowery) / (self.uppery - self.lowery)
         return (1000 * alphax, 600 * alphay)
+
+    def internal_distance_to_canvas_distance(self, distance):
+        """
+        Convert internal distance to canvas distance
+        """
+        return distance * 1000 / (self.upperx - self.lowerx)
 
     def redraw(self):
         self.canvas.delete('all')
@@ -185,7 +209,7 @@ class GUI:
         triangleCenterMenu = tkinter.Menu(menubar, tearoff=0)
         triangleCenterMenu.add_command(label='Circumcenter',
                             command=self.set_current_tool_handler(CircumCenterTool(self)))
-        triangleCenterMenu.add_command(label='Geocumcenter',
+        triangleCenterMenu.add_command(label='Geocenter',
                             command=self.set_current_tool_handler(GeocenterTool(self)))
         triangleCenterMenu.add_command(label='Incenter',
                             command=self.set_current_tool_handler(IncenterTool(self)))

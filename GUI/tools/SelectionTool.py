@@ -14,6 +14,7 @@ class SelectionTool(Tool):
         if extraButton is None:
             self.root.clearSelectedObjects()
         x, y, = event.x, event.y
+        x, y = self.root.canvas_coords_to_internal_coors(x, y)
         tolerance = self.root.getTolerance()
 
         for object in self.root.objects:
@@ -31,6 +32,7 @@ class SelectionTool(Tool):
 
     def do_drag(self, event, extraButton=None):
         x, y = event.x, event.y
+        x, y = self.root.canvas_coords_to_internal_coors(x, y)
         if isinstance(self.selectedObject, Point):
             children = self.selectedObject.setCoordinates(x, y)
 

@@ -14,6 +14,7 @@ class ObjectFromOtherObjectTool(Tool):
 
     def do_click(self, event, extraButton=None):
         x, y, = event.x, event.y
+        x, y = self.root.canvas_coords_to_internal_coors(x, y)
         tolerance = self.root.getTolerance()
 
         for obj in self.root.objects:
