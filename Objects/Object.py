@@ -15,3 +15,9 @@ class GeometricObject:
     
     def exists(self):
         pass
+
+    def setColor(self, color):
+        pass
+
+    def getColor(self):
+        pass

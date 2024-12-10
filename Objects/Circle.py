@@ -21,6 +21,7 @@ class Circle(GeometricObject):
         self.childObjects = []
         self.name = name
         self.isVisible = isVisible
+        self.color = None
 
         self.correctPosition()
 
@@ -65,6 +66,12 @@ class Circle(GeometricObject):
     
     def addChild(self, object):
         self.childObjects.append(object)
+
+    def setColor(self, color):
+        self.color = color
+    
+    def getColor(self):
+        return self.color
 
     def __str__(self):
         return f"Circle (center: {str(self.center)}, radius: {self.radius:.2f})"

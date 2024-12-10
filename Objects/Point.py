@@ -9,6 +9,7 @@ class Point(GeometricObject):
         self.childObjects = []
         self.name = name
         self.isVisible = isVisible
+        self.color = None
         
         
         if not definingObjects:
@@ -74,6 +75,12 @@ class Point(GeometricObject):
     
     def getVisibility(self):
         return self.isVisible
+    
+    def setColor(self, color):
+        self.color = color
+    
+    def getColor(self):
+        return self.color
     
     def __str__(self):
         x,y = self.getCoordinates()

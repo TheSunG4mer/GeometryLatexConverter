@@ -24,6 +24,7 @@ class Line(GeometricObject):
         self.childObjects = []
         self.name = name
         self.isVisible = isVisible
+        self.color = None
 
         self.correctPosition()
     
@@ -84,6 +85,12 @@ class Line(GeometricObject):
     
     def addChild(self, object):
         self.childObjects.append(object)
+    
+    def setColor(self, color):
+        self.color = color
+    
+    def getColor(self):
+        return self.color
 
     def getPlottingCoordinates(self, boundingBox):
         a, b, c = self.getCoefficients()

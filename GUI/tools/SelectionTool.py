@@ -20,8 +20,13 @@ class SelectionTool(Tool):
         x, y = self.root.canvas_coords_to_internal_coors(x, y)
         tolerance = self.root.getTolerance()
 
-        for object in self.root.objects:
-            if object.exists() and object.isClose(x, y, tolerance):
+        # To make sure, that we check point before lines or circles, we check sort them to the front
+
+        geometricObjects = [object for object in self.root.objects if object.exists()]
+        geometricObjects.sort(key=lambda obj: isinstance(obj, Point), reverse=True)
+
+        for object in geometricObjects:
+            if object.isClose(x, y, tolerance):
                 selectedObject = object
                 break
         else:
@@ -56,8 +61,8 @@ class SelectionTool(Tool):
 
 
     def do_release(self, event, extraButton=None):
-        if not extraButton == "ctrl":
-            self.root.clearSelectedObjects()
+        # if not extraButton == "ctrl":
+        #     self.root.clearSelectedObjects()
         self.selectedObject = None
         self.x, self.y = None, None
         self.root.redraw()

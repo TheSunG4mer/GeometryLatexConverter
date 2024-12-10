@@ -74,7 +74,10 @@ class GUI:
         
         if point in self.selectedObjects:
             color = "blue"
-        
+
+        if point.getColor() is not None:
+            color = point.getColor()
+
         self.drawPoint(x, y, color=color, size=size)
 
 
@@ -100,8 +103,10 @@ class GUI:
             width = 3
         else:
             width = 2
-            
-        self.canvas.create_line(x1, y1, x2, y2, width=width)
+        
+        color = line.getColor() if line.getColor() is not None else "black"
+
+        self.canvas.create_line(x1, y1, x2, y2, width=width, fill=color)
 
     def drawCircleObject(self, circle):
         assert isinstance(circle, Circle)
@@ -117,7 +122,9 @@ class GUI:
         x, y = self.internal_coords_to_canvas_coords(x, y)
         radius = self.internal_distance_to_canvas_distance(radius)
 
-        self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, width=width)
+        color = circle.getColor() if circle.getColor() is not None else "black"
+
+        self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, width=width, outline=color)
 
     def canvas_coords_to_internal_coors(self, x, y):
         """
@@ -314,6 +321,12 @@ class GUI:
     def getSelectedObjectsTally(self):
         return self.selectedObjectsTally
 
+    def setColor(self, color):
+        for object in self.selectedObjects:
+            object.setColor(color)
+        self.redraw()
+
+
     def __init__(self, root):
         self.root = root
         self.objects = []
@@ -322,7 +335,7 @@ class GUI:
         self.selectedLines = []
         self.selectedCircles = []
         self.selectedObjectsTally = [0, 0, 0]
-        self.colors = ['black', 'red', 'blue', 'green', 'yellow']
+        self.colors = ['black', 'red', 'blue', 'green', 'yellow', 'grey', 'purple', 'orange', 'brown', 'pink']
 
 
         root.title('Geometry Window')
@@ -341,7 +354,7 @@ class GUI:
 
 
         button_clear = tkinter.Button(root, text='Clear', command=self.do_clear)
-        button_clear.grid(row=0, column=1, sticky='EW')
+        button_clear.grid(row=0, column=2, sticky='EW')
 
         self.show_ch = tkinter.IntVar()
         # checkbox = tkinter.Checkbutton(root, text='show convex hull',
@@ -349,7 +362,19 @@ class GUI:
         # checkbox.grid(row=0, column=2)
 
         canvas = tkinter.Canvas(root, width=CANVAS_WIDTH, height=CANVAS_HEIGHT, background='lightgrey')
-        canvas.grid(row=1, column=0, columnspan=3)
+        canvas.grid(row=1, column=0, rowspan = 30, columnspan=3)
+        
+        menu_text = tkinter.Label(root, text='Object Menu', width = 30)
+        menu_text.grid(row=0, column=3, columnspan = 5,  sticky='W')
+
+        color_text = tkinter.Label(root, text='Choose color', width = 30)
+        color_text.grid(row=1, column=3, columnspan = 5,  sticky='W')
+
+
+        for i, color in enumerate(self.colors):
+            button = tkinter.Button(root, background=color, command=lambda color=color: self.setColor(color))
+            button.grid(row=2 + i // 5, column=3 + (i % 5), sticky='NSEW')
+
         canvas.bind('<Button-1>', self.do_click)
         canvas.bind('<B1-Motion>', self.do_drag)
         canvas.bind('<ButtonRelease-1>', self.do_release)
