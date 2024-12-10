@@ -104,7 +104,21 @@ class GUI:
             width = 2
         self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, width=width)
 
+    def canvas_coords_to_internal_coors(self, x, y):
+        """
+        Convert canvas coordinates to internal coordinates
+        """
+        alphax = x / 1000
+        alphay = y / 600
+        return (self.lowerx + alphax * (self.upperx - self.lowerx), self.lowery + alphay * (self.uppery - self.lowery))
 
+    def internal_coords_to_canvas_coords(self, x, y):
+        """
+        Convert internal coordinates to canvas coordinates
+        """
+        alphax = (x - self.lowerx) / (self.upperx - self.lowerx)
+        alphay = (y - self.lowery) / (self.uppery - self.lowery)
+        return (1000 * alphax, 600 * alphay)
 
     def redraw(self):
         self.canvas.delete('all')
@@ -130,51 +144,51 @@ class GUI:
 
         movemenu = tkinter.Menu(menubar, tearoff=0)
         movemenu.add_command(label="Move", 
-                             command=self.set_current_tool_handler(SelectionTool(self)))
+                            command=self.set_current_tool_handler(SelectionTool(self)))
         movemenu.add_command(label="Debug Tool", 
-                             command=self.set_current_tool_handler(DebugTool(self)))
+                            command=self.set_current_tool_handler(DebugTool(self)))
         
         pointmenu = tkinter.Menu(menubar, tearoff=0)
         pointmenu.add_command(label='Point', 
-                              command=self.set_current_tool_handler(PointInsertionTool(self)))
+                            command=self.set_current_tool_handler(PointInsertionTool(self)))
         pointmenu.add_command(label='Intersection', 
-                              command=self.set_current_tool_handler(IntersectionTool(self)))
+                            command=self.set_current_tool_handler(IntersectionTool(self)))
         pointmenu.add_command(label='Midpoint', 
-                              command=self.set_current_tool_handler(MidpointTool(self)))
+                            command=self.set_current_tool_handler(MidpointTool(self)))
         pointmenu.add_command(label='Projection of Point to Line', 
-                              command=self.set_current_tool_handler(PointAsProjectionOfPointToLineTool(self)))
+                            command=self.set_current_tool_handler(PointAsProjectionOfPointToLineTool(self)))
 
         linemenu = tkinter.Menu(menubar, tearoff=0)
         linemenu.add_command(label='Line Through Two Points', 
-                             command=self.set_current_tool_handler(LineThroughPointsTool(self)))
+                            command=self.set_current_tool_handler(LineThroughPointsTool(self)))
         linemenu.add_command(label='Linesegment Through Two Points', 
-                             command=self.set_current_tool_handler(LineSegmentThroughPointsTool(self)))
+                            command=self.set_current_tool_handler(LineSegmentThroughPointsTool(self)))
         linemenu.add_command(label='Halfline Through Two Points', 
-                             command=self.set_current_tool_handler(HalfLineTool(self)))
+                            command=self.set_current_tool_handler(HalfLineTool(self)))
         linemenu.add_command(label='Parallel Line Through Point', 
-                             command=self.set_current_tool_handler(LineParallelThroughPointTool(self)))
+                            command=self.set_current_tool_handler(LineParallelThroughPointTool(self)))
         linemenu.add_command(label='Orthogonal Line Through Point', 
-                             command=self.set_current_tool_handler(LineOrthogonalThroughPointTool(self)))
+                            command=self.set_current_tool_handler(LineOrthogonalThroughPointTool(self)))
         linemenu.add_command(label='Perpendicular Bisector', 
-                             command=self.set_current_tool_handler(PerpendicularBisectorTool(self)))
+                            command=self.set_current_tool_handler(PerpendicularBisectorTool(self)))
         linemenu.add_command(label='Angle Bisector', 
-                             command=self.set_current_tool_handler(AngleBisectorTool(self)))
+                            command=self.set_current_tool_handler(AngleBisectorTool(self)))
         
         
 
         circlemenu = tkinter.Menu(menubar, tearoff=0)
         circlemenu.add_command(label='Circle from Center and Point', 
-                               command=self.set_current_tool_handler(CircleFromCenterAndPointTool(self)))
+                            command=self.set_current_tool_handler(CircleFromCenterAndPointTool(self)))
         circlemenu.add_command(label='Circle Through Three Points', 
-                               command=self.set_current_tool_handler(CircleThroughThreePointsTool(self)))
+                            command=self.set_current_tool_handler(CircleThroughThreePointsTool(self)))
 
         triangleCenterMenu = tkinter.Menu(menubar, tearoff=0)
         triangleCenterMenu.add_command(label='Circumcenter',
-                                command=self.set_current_tool_handler(CircumCenterTool(self)))
+                            command=self.set_current_tool_handler(CircumCenterTool(self)))
         triangleCenterMenu.add_command(label='Geocumcenter',
-                                command=self.set_current_tool_handler(GeocenterTool(self)))
+                            command=self.set_current_tool_handler(GeocenterTool(self)))
         triangleCenterMenu.add_command(label='Incenter',
-                                command=self.set_current_tool_handler(IncenterTool(self)))
+                            command=self.set_current_tool_handler(IncenterTool(self)))
 
         colormenu = tkinter.Menu(menubar, tearoff=0)
         for color in self.colors: # list of color names
@@ -260,9 +274,9 @@ class GUI:
         button_clear.grid(row=0, column=1, sticky='EW')
 
         self.show_ch = tkinter.IntVar()
-        checkbox = tkinter.Checkbutton(root, text='show convex hull',
-                                       variable=self.show_ch, command=self.redraw)
-        checkbox.grid(row=0, column=2)
+        # checkbox = tkinter.Checkbutton(root, text='show convex hull',
+        #                                variable=self.show_ch, command=self.redraw)
+        # checkbox.grid(row=0, column=2)
 
         canvas = tkinter.Canvas(root, width=1000, height=600, background='lightgrey')
         canvas.grid(row=1, column=0, columnspan=3)
