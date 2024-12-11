@@ -339,7 +339,7 @@ class GUI:
             self.selectedObjectsTally[2] += 1
         
         if len(self.selectedObjects) == 1:
-            self.ready_label(self.selectedObjects[0])
+            self.ready_label_menu(self.selectedObjects[0])
         else:
             self.reset_label()
 
@@ -365,14 +365,16 @@ class GUI:
             object.setColor(color)
         self.redraw()
 
-    def ready_label(self, object):
+    def ready_label_menu(self, object):
         current_label = object.getLabel()
         if current_label is None:
             current_label = "Label"
         self.label_var.set(current_label)
+        self.show_label.set(object.getLabelVisibility())
 
     def reset_label(self):
         self.label_var.set("Label")
+        self.show_label.set(1)
     
     def deleteLabel(self):
         for object in self.selectedObjects:
@@ -390,6 +392,10 @@ class GUI:
         selctedObject.setLabel(self.label_var.get())
         self.redraw()
 
+    def update_label_visibility(self):
+        for object in self.selectedObjects:
+            object.setLabelVisibility(self.show_label.get())
+        self.redraw()
 
     def __init__(self, root):
         self.root = root
@@ -420,10 +426,7 @@ class GUI:
         button_clear = tkinter.Button(root, text='Clear', command=self.do_clear)
         button_clear.grid(row=0, column=2, sticky='EW')
 
-        self.show_ch = tkinter.IntVar()
-        # checkbox = tkinter.Checkbutton(root, text='show convex hull',
-        #                                variable=self.show_ch, command=self.redraw)
-        # checkbox.grid(row=0, column=2)
+        self.show_label = tkinter.IntVar()
 
         canvas = tkinter.Canvas(root, width=CANVAS_WIDTH, height=CANVAS_HEIGHT, background='lightgrey')
         canvas.grid(row=1, column=0, rowspan = 30, columnspan=3)
@@ -458,7 +461,13 @@ class GUI:
             button.grid(row=5 + i // 3, column=3 + (i % 3), sticky='NSEW')
         
         delete_label_button = tkinter.Button(root, text='Delete Label', width = BUTTON_WIDTH * 2, command=self.deleteLabel)
-        delete_label_button.grid(row=5, column=6, columnspan = 2,  sticky='NSW')
+        delete_label_button.grid(row=5, column=6, columnspan = 2,  sticky='NSEW')
+
+        hide_label_label = tkinter.Label(root, text='Hide Label', width = 2 * BUTTON_WIDTH)
+        hide_label_label.grid(row=6, column=6, columnspan=2, sticky='NSEW')
+
+        hide_label_checkbutton = tkinter.Checkbutton(root, variable=self.show_label, command=self.update_label_visibility)
+        hide_label_checkbutton.grid(row=7, column=6, columnspan=2, sticky='NSEW')
 
 
         canvas.bind('<Button-1>', self.do_click)
