@@ -1,5 +1,6 @@
 
-Make half lines
+Bugs:
+ - Sometimes lines break, when they are moved off canvas.
 
 Further geometric constructions:
  - CircumCenter (Done but could be optimized)
@@ -12,12 +13,9 @@ Maybe I should add these?:
  - EulerLine
  - Nine point circle
 
-Zoom/move canvas functionality.
-
 Interact with objects:
- - Color
  - Thickness
  - Make objects invisible
-
+ - Add labels
 
 Points snap to lines/circles.

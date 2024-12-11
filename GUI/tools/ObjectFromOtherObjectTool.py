@@ -18,7 +18,7 @@ class ObjectFromOtherObjectTool(Tool):
         tolerance = self.root.getTolerance()
 
         for obj in self.root.objects:
-            if obj.isClose(x, y, tolerance):
+            if obj.exists() and obj.isClose(x, y, tolerance):
                 ## Try the selected object
                 indexForObj = self.objDict[type(obj)]
                 currentObjDistribution = self.root.getSelectedObjectsTally().copy()

@@ -35,8 +35,9 @@ class Line(GeometricObject):
     
     def correctPosition(self):
         if any([not obj.exists() for obj in self.definingObjects if isinstance(obj, GeometricObject)]):
-            self.x = None
-            self.y = None
+            self.xCoef = None
+            self.yCoef = None
+            self.c = None
             self.doesExist = False
         else:
             self.xCoef, self.yCoef, self.c, self.boundaries = self.constructionStrategy.constructObject(self.definingObjects)
@@ -122,6 +123,9 @@ class Line(GeometricObject):
         return self.labelIsVisible
 
     def getPlottingCoordinates(self, boundingBox):
+
+        # There is a bug somewhere here. The line is not being plotted correctly when off canvas.
+        
         a, b, c = self.getCoefficients()
         lowerx, lowery = boundingBox[0]
         upperx, uppery = boundingBox[1]
@@ -145,6 +149,7 @@ class Line(GeometricObject):
             y1 = lowery
             y2 = uppery
             x2 = x1
+            return x1, y1, x2, y2
         elif a == 0:
             y1= c / b
             if not lowery <= y1 <= uppery:
@@ -152,29 +157,31 @@ class Line(GeometricObject):
             x1 = lowerx
             x2 = upperx
             y2 = y1 
-        else:
-            xPoints = []
-            yPoints = []
-            x = (c - b * lowery) / a
-            if lowerx <= x <= upperx:
-                xPoints.append(x)
-                yPoints.append(lowery)
-            x = (c - b * uppery) / a
-            if lowerx <= x <= upperx:
-                xPoints.append(x)
-                yPoints.append(uppery)
-            y = (c - a * lowerx) / b
-            if lowery <= y <= uppery:
-                xPoints.append(lowerx)
-                yPoints.append(y)
-            y = (c - a * upperx) / b
-            if lowery <= y <= uppery:
-                xPoints.append(upperx)
-                yPoints.append(y)
-            sortedxPoints = sorted(xPoints)
-            x1, x2 = sortedxPoints[0], sortedxPoints[-1]
-            y1 = yPoints[xPoints.index(x1)]
-            y2 = yPoints[xPoints.index(x2)]
+            return x1, y1, x2, y2
+
+        # Now a and b are both non-zero
+        xPoints = []
+        yPoints = []
+        x = (c - b * lowery) / a
+        if lowerx <= x <= upperx:
+            xPoints.append(x)
+            yPoints.append(lowery)
+        x = (c - b * uppery) / a
+        if lowerx <= x <= upperx:
+            xPoints.append(x)
+            yPoints.append(uppery)
+        y = (c - a * lowerx) / b
+        if lowery <= y <= uppery:
+            xPoints.append(lowerx)
+            yPoints.append(y)
+        y = (c - a * upperx) / b
+        if lowery <= y <= uppery:
+            xPoints.append(upperx)
+            yPoints.append(y)
+        sortedxPoints = sorted(xPoints)
+        x1, x2 = sortedxPoints[0], sortedxPoints[-1]
+        y1 = yPoints[xPoints.index(x1)]
+        y2 = yPoints[xPoints.index(x2)]
         return x1, y1, x2, y2
 
     def __str__(self):
