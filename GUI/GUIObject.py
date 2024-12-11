@@ -35,6 +35,7 @@ CANVAS_HEIGHT = 600
 
 BUTTON_WIDTH = 5
 
+LABEL_DISTANCE = 15
 class GUI:
     def do_clear(self):
         self.objects.clear()
@@ -372,6 +373,14 @@ class GUI:
 
     def reset_label(self):
         self.label_var.set("Label")
+    
+    def deleteLabel(self):
+        for object in self.selectedObjects:
+            object.setLabel(None)
+            object.setLabelDirection(None)
+            object.setLabelVisibility(True)
+            object.setLabelDistance(LABEL_DISTANCE)
+        self.redraw()
 
     def setLabelDirection(self, direction):
         if len(self.selectedObjects) != 1:
@@ -448,6 +457,8 @@ class GUI:
             button = tkinter.Button(root, text=direction, width = BUTTON_WIDTH, command=lambda direction=direction: self.setLabelDirection(direction))
             button.grid(row=5 + i // 3, column=3 + (i % 3), sticky='NSEW')
         
+        delete_label_button = tkinter.Button(root, text='Delete Label', width = BUTTON_WIDTH * 2, command=self.deleteLabel)
+        delete_label_button.grid(row=5, column=6, columnspan = 2,  sticky='NSW')
 
 
         canvas.bind('<Button-1>', self.do_click)
