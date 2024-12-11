@@ -27,16 +27,15 @@ class SelectionTool(Tool):
 
         for object in geometricObjects:
             if object.isClose(x, y, tolerance):
-                selectedObject = object
+                self.selectedObject = object
+                self.root.addSelectedObject(object)
                 break
         else:
-            selectedObject = None
+            self.selectedObject = None
 
-        print(selectedObject)       #For debugging 
-        self.selectedObject = selectedObject
+        print(self.selectedObject)   #For debugging 
         self.x, self.y = x, y
-        self.root.addSelectedObject(selectedObject)
-
+        
         self.root.redraw()
 
     def do_drag(self, event, extraButton=None):

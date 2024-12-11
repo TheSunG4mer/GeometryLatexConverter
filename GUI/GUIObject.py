@@ -81,6 +81,7 @@ class GUI:
         color = point.getColor() if point.getColor() is not None else "black"
 
         self.drawPoint(x, y, color=color, size=size, outline=outline)
+        self.drawLabel(point)
 
 
     def drawPoint(self, x, y, color="grey", outline = "black", size=5):
@@ -127,6 +128,35 @@ class GUI:
         color = circle.getColor() if circle.getColor() is not None else "black"
 
         self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, width=width, outline=color)
+
+    def getOfsetFromDirection(self, direction):
+        if direction == "N":
+            return 0, -1
+        if direction == "NE":
+            return 0.7, -0.7
+        if direction == "E":
+            return 1, 0
+        if direction == "SE":
+            return 0.7, 0.7
+        if direction == "S":
+            return 0, 1
+        if direction == "SW":
+            return -0.7, 0.7
+        if direction == "W":
+            return -1, 0
+        if direction == "NW":
+            return -0.7, -0.7
+
+    def drawLabel(self, object):
+        if not object.getLabelVisibility() or object.getLabel() is None:
+            return
+        x, y = object.getCoordinates()
+        x, y = self.internal_coords_to_canvas_coords(x, y)
+        dx, dy = self.getOfsetFromDirection(object.getLabelDirection())
+        label = object.getLabel()
+        x += dx * object.getLabelDistance()
+        y += dy * object.getLabelDistance()
+        self.canvas.create_text(x, y, text=label)
 
     def canvas_coords_to_internal_coors(self, x, y):
         """
@@ -290,7 +320,7 @@ class GUI:
         self.redraw()
 
     def getTolerance(self):
-        return self.tolerance
+        return self.canvas_distance_to_internal_distance(self.tolerance)
     
     def addObject(self, object):
         self.objects.append(object)
@@ -306,6 +336,11 @@ class GUI:
         elif isinstance(object, Circle):
             self.selectedCircles.append(object)
             self.selectedObjectsTally[2] += 1
+        
+        if len(self.selectedObjects) == 1:
+            self.ready_label(self.selectedObjects[0])
+        else:
+            self.reset_label()
 
     def clearSelectedObjects(self):
         self.selectedObjects = []
@@ -313,6 +348,7 @@ class GUI:
         self.selectedLines = []
         self.selectedCircles = []
         self.selectedObjectsTally = [0, 0, 0]
+        self.reset_label()
 
     def getSelectedObjects(self):
         return self.selectedObjects
@@ -328,10 +364,22 @@ class GUI:
             object.setColor(color)
         self.redraw()
 
+    def ready_label(self, object):
+        current_label = object.getLabel()
+        if current_label is None:
+            current_label = "Label"
+        self.label_var.set(current_label)
+
+    def reset_label(self):
+        self.label_var.set("Label")
+
     def setLabelDirection(self, direction):
         if len(self.selectedObjects) != 1:
             return
-        self.selectedObjects[0].setLabelDirection(direction)
+        selctedObject = self.selectedObjects[0]
+        selctedObject.setLabelDirection(direction)
+        selctedObject.setLabel(self.label_var.get())
+        self.redraw()
 
 
     def __init__(self, root):
@@ -391,12 +439,14 @@ class GUI:
 
         for i, direction in enumerate(["NW", "N", "NE", "W", "C", "E", "SW", "S", "SE"]):
             if direction == "C":
-                label_writer = tkinter.Entry(root, width = BUTTON_WIDTH)
-                label_writer.grid(row=6, column=5, sticky='NSEW')
+                self.label_var = tkinter.StringVar()
+                label_writer = tkinter.Entry(root, textvariable=self.label_var, width = BUTTON_WIDTH)
+                label_writer.grid(row=5 + i // 3, column=3 + (i % 3), sticky='NSEW')
+                self.label_var.set("Label")
                 continue
 
             button = tkinter.Button(root, text=direction, width = BUTTON_WIDTH, command=lambda direction=direction: self.setLabelDirection(direction))
-            button.grid(row=5 + i // 3, column=4 + (i % 3), sticky='NSEW')
+            button.grid(row=5 + i // 3, column=3 + (i % 3), sticky='NSEW')
         
 
 

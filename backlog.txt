@@ -1,7 +1,7 @@
 
 Bugs:
  - Sometimes lines break, when they are moved off canvas.
-
+ - Tolerance uses internal coordinates but should use canvas coordinates.
 Further geometric constructions:
  - CircumCenter (Done but could be optimized)
  - Orthocenter

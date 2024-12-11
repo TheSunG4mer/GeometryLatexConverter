@@ -25,7 +25,7 @@ class Circle(GeometricObject):
 
         self.label = None
         self.labelDirection = None
-        self.labelDistance = 5
+        self.labelDistance = 15
         self.labelIsVisible = True
 
         self.correctPosition()

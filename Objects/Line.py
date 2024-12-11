@@ -28,7 +28,7 @@ class Line(GeometricObject):
 
         self.label = None
         self.labelDirection = None
-        self.labelDistance = 5
+        self.labelDistance = 15
         self.labelIsVisible = True
 
         self.correctPosition()
@@ -125,7 +125,7 @@ class Line(GeometricObject):
     def getPlottingCoordinates(self, boundingBox):
 
         # There is a bug somewhere here. The line is not being plotted correctly when off canvas.
-        
+
         a, b, c = self.getCoefficients()
         lowerx, lowery = boundingBox[0]
         upperx, uppery = boundingBox[1]
