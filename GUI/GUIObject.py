@@ -371,10 +371,12 @@ class GUI:
             current_label = "Label"
         self.label_var.set(current_label)
         self.show_label.set(object.getLabelVisibility())
+        self.label_distance_slider.set(object.getLabelDistance())
 
     def reset_label(self):
         self.label_var.set("Label")
         self.show_label.set(1)
+        self.label_distance_slider.set(LABEL_DISTANCE)
     
     def deleteLabel(self):
         for object in self.selectedObjects:
@@ -382,6 +384,7 @@ class GUI:
             object.setLabelDirection(None)
             object.setLabelVisibility(True)
             object.setLabelDistance(LABEL_DISTANCE)
+        self.reset_label()
         self.redraw()
 
     def setLabelDirection(self, direction):
@@ -395,6 +398,11 @@ class GUI:
     def update_label_visibility(self):
         for object in self.selectedObjects:
             object.setLabelVisibility(self.show_label.get())
+        self.redraw()
+
+    def update_label_distance(self, distance):
+        for object in self.selectedObjects:
+            object.setLabelDistance(int(distance))
         self.redraw()
 
     def __init__(self, root):
@@ -463,12 +471,18 @@ class GUI:
         delete_label_button = tkinter.Button(root, text='Delete Label', width = BUTTON_WIDTH * 2, command=self.deleteLabel)
         delete_label_button.grid(row=5, column=6, columnspan = 2,  sticky='NSEW')
 
-        hide_label_label = tkinter.Label(root, text='Hide Label', width = 2 * BUTTON_WIDTH)
+        hide_label_label = tkinter.Label(root, text='Show Label', width = 2 * BUTTON_WIDTH)
         hide_label_label.grid(row=6, column=6, columnspan=2, sticky='NSEW')
 
         hide_label_checkbutton = tkinter.Checkbutton(root, variable=self.show_label, command=self.update_label_visibility)
         hide_label_checkbutton.grid(row=7, column=6, columnspan=2, sticky='NSEW')
 
+        label_distance_label = tkinter.Label(root, text='Label Distance', width = 2 * BUTTON_WIDTH)
+        label_distance_label.grid(row=8, column=3, columnspan=2, sticky='NSEW')
+        label_distance_slider = tkinter.Scale(root, from_=1, to=30, orient='horizontal', length=BUTTON_WIDTH * 3, command=self.update_label_distance)
+        label_distance_slider.set(LABEL_DISTANCE)
+        label_distance_slider.grid(row=8, column=5, columnspan=3, sticky='NSEW')
+        self.label_distance_slider = label_distance_slider
 
         canvas.bind('<Button-1>', self.do_click)
         canvas.bind('<B1-Motion>', self.do_drag)
