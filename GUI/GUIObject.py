@@ -241,6 +241,19 @@ class GUI:
                         if isinstance(obj, Circle) and not boolVar:
                             self.drawCircleObject(obj)
 
+    def export_to_tikz(self):
+        filename = "output.tex"
+        with open(filename, "w") as file:
+            file.write("\\documentclass{standalone}\n")
+            file.write("\\usepackage{tikz}\n")
+            file.write("\\begin{document}\n")
+            file.write("\\begin{tikzpicture}\n")
+            for obj in self.objects:
+                if obj.exists():
+                    pass
+            file.write("\\end{tikzpicture}\n")
+            file.write("\\end{document}\n")
+        print(f"Exported to {filename}")
 
     def create_menu(self):
         menubar = tkinter.Menu(self.root)
@@ -295,16 +308,16 @@ class GUI:
         triangleCenterMenu.add_command(label='Incenter',
                             command=self.set_current_tool_handler(IncenterTool(self)))
 
-        colormenu = tkinter.Menu(menubar, tearoff=0)
-        for color in self.colors: # list of color names
-            colormenu.add_command(label=color,
-                                foreground=color)
+        exportmenu = tkinter.Menu(menubar, tearoff=0)
+        
+        exportmenu.add_command(label='Export to TikZ', command=self.export_to_tikz)
+
         menubar.add_cascade(label='Move', menu=movemenu)
         menubar.add_cascade(label='Points', menu=pointmenu)
         menubar.add_cascade(label='Lines', menu=linemenu)
         menubar.add_cascade(label='Circles', menu=circlemenu)
         menubar.add_cascade(label='Triangle Centers', menu=triangleCenterMenu)
-        menubar.add_cascade(label='Color', menu=colormenu)
+        menubar.add_cascade(label='Export', menu=exportmenu)
         self.root.config(menu=menubar) # Show menubar
 
     def set_current_tool_handler(self, tool):
