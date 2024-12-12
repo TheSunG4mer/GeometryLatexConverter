@@ -17,7 +17,5 @@ Maybe I should add these?:
 
 Interact with objects:
  - Thickness
- - Make objects invisible
- - Add labels
 
 Points snap to lines/circles.

@@ -80,7 +80,9 @@ class GUI:
             size = self.smallPointSize
 
         color = point.getColor() if point.getColor() is not None else "black"
-
+        if not point.getVisibility():
+            color = "white"
+            outline = "white"
         self.drawPoint(x, y, color=color, size=size, outline=outline)
         self.drawLabel(point)
 
@@ -109,6 +111,8 @@ class GUI:
             width = 2
         
         color = line.getColor() if line.getColor() is not None else "black"
+        if not line.getVisibility():
+            color = "white"
 
         self.canvas.create_line(x1, y1, x2, y2, width=width, fill=color)
 
@@ -127,6 +131,8 @@ class GUI:
         radius = self.internal_distance_to_canvas_distance(radius)
 
         color = circle.getColor() if circle.getColor() is not None else "black"
+        if not circle.getVisibility():
+            color = "white"
 
         self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, width=width, outline=color)
 
@@ -224,8 +230,8 @@ class GUI:
         for boolVar in [False, True]:
             for objType in [Circle, Line, Point]:
                 for obj in self.objects:
-                    if isinstance(obj, objType) and obj.getVisibility() and obj.exists():
-
+                    if isinstance(obj, objType) and obj.exists():   # and obj.getVisibility(): 
+                                                                    # If an object is not visible, it will be drawn white.
                         if isinstance(obj, Point) and obj.free() == boolVar:
                             self.drawPointObject(obj)
 
@@ -340,8 +346,10 @@ class GUI:
         
         if len(self.selectedObjects) == 1:
             self.ready_label_menu(self.selectedObjects[0])
+            self.ready_visibility_menu(self.selectedObjects[0])
         else:
             self.reset_label()
+            self.reset_visibility_menu()
 
     def clearSelectedObjects(self):
         self.selectedObjects = []
@@ -370,14 +378,20 @@ class GUI:
         if current_label is None:
             current_label = "Label"
         self.label_var.set(current_label)
-        self.show_label.set(object.getLabelVisibility())
+        self.show_label_var.set(object.getLabelVisibility())
         self.label_distance_slider.set(object.getLabelDistance())
+
+    def ready_visibility_menu(self, object):
+        self.show_object_var.set(object.getVisibility())
 
     def reset_label(self):
         self.label_var.set("Label")
-        self.show_label.set(1)
+        self.show_label_var.set(1)
         self.label_distance_slider.set(LABEL_DISTANCE)
     
+    def reset_visibility_menu(self):
+        self.show_object_var.set(1)
+
     def deleteLabel(self):
         for object in self.selectedObjects:
             object.setLabel(None)
@@ -397,12 +411,17 @@ class GUI:
 
     def update_label_visibility(self):
         for object in self.selectedObjects:
-            object.setLabelVisibility(self.show_label.get())
+            object.setLabelVisibility(self.show_label_var.get())
         self.redraw()
 
     def update_label_distance(self, distance):
         for object in self.selectedObjects:
             object.setLabelDistance(int(distance))
+        self.redraw()
+    
+    def update_object_visibility(self):
+        for object in self.selectedObjects:
+            object.setVisibility(self.show_object_var.get()) # TODO
         self.redraw()
 
     def __init__(self, root):
@@ -433,8 +452,6 @@ class GUI:
 
         button_clear = tkinter.Button(root, text='Clear', command=self.do_clear)
         button_clear.grid(row=0, column=2, sticky='EW')
-
-        self.show_label = tkinter.IntVar()
 
         canvas = tkinter.Canvas(root, width=CANVAS_WIDTH, height=CANVAS_HEIGHT, background='lightgrey')
         canvas.grid(row=1, column=0, rowspan = 30, columnspan=3)
@@ -472,9 +489,10 @@ class GUI:
         delete_label_button.grid(row=5, column=6, columnspan = 2,  sticky='NSEW')
 
         hide_label_label = tkinter.Label(root, text='Show Label', width = 2 * BUTTON_WIDTH)
-        hide_label_label.grid(row=6, column=6, columnspan=2, sticky='NSEW')
+        hide_label_label.grid(row=6, column=6, columnspan=2, sticky='S')
 
-        hide_label_checkbutton = tkinter.Checkbutton(root, variable=self.show_label, command=self.update_label_visibility)
+        self.show_label_var = tkinter.IntVar()
+        hide_label_checkbutton = tkinter.Checkbutton(root, variable=self.show_label_var, command=self.update_label_visibility)
         hide_label_checkbutton.grid(row=7, column=6, columnspan=2, sticky='NSEW')
 
         label_distance_label = tkinter.Label(root, text='Label Distance', width = 2 * BUTTON_WIDTH)
@@ -483,6 +501,17 @@ class GUI:
         label_distance_slider.set(LABEL_DISTANCE)
         label_distance_slider.grid(row=8, column=5, columnspan=3, sticky='NSEW')
         self.label_distance_slider = label_distance_slider
+
+###################################### Visibility Menu ########################################
+        visibility_label = tkinter.Label(root, text='Show object', width = BUTTON_WIDTH * 2)
+        visibility_label.grid(row=9, column=3, columnspan = 2,  sticky='W')
+
+        self.show_object_var = tkinter.IntVar()
+        self.show_object_var.set(1)
+        visibility_checkbutton = tkinter.Checkbutton(root, variable=self.show_object_var, command=self.update_object_visibility)
+        visibility_checkbutton.grid(row=9, column=5, columnspan = 3,  sticky='W')
+
+
 
         canvas.bind('<Button-1>', self.do_click)
         canvas.bind('<B1-Motion>', self.do_drag)
