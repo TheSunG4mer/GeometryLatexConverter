@@ -9,6 +9,12 @@ class Point(GeometricObject):
         self.childObjects = []
         self.name = name
         self.isVisible = isVisible
+        self.color = None
+
+        self.label = None
+        self.labelDirection = None
+        self.labelDistance = 15
+        self.labelIsVisible = True
         
         
         if not definingObjects:
@@ -24,7 +30,12 @@ class Point(GeometricObject):
         else:
             assert isinstance(constructionStrategy, ConstructionStrategy)
             self.isFree = False
+
             self.definingObjects = definingObjects
+            for obj in definingObjects:
+                if isinstance(obj, GeometricObject):
+                    obj.addChild(self)
+                
             self.constructionStrategy = constructionStrategy
             self.x = 0
             self.y = 0
@@ -47,6 +58,11 @@ class Point(GeometricObject):
 
         return self.childObjects
     
+    def setCoordinates(self, x, y):
+        if self.free():
+            self.x = x
+            self.y = y
+        return self.childObjects
         
     def getCoordinates(self):
         return self.x, self.y
@@ -60,4 +76,55 @@ class Point(GeometricObject):
     def distanceToPoint(self, point2):
         assert isinstance(point2, Point)
         x2, y2 = point2.getCoordinates()
-        return ((self.x - x2) ** 2 + (self.y - y2) ** 2) ** 0.5
+        return distanceBetweenPoints(self.x, self.y, x2, y2)
+    
+    def getVisibility(self):
+        return self.isVisible
+    
+    def setColor(self, color):
+        self.color = color
+    
+    def getColor(self):
+        return self.color
+    
+    def setLabel(self, label):
+        self.label = label
+
+    def getLabel(self):
+        return self.label
+
+    def setLabelDirection(self, labelDirection):
+        self.labelDirection = labelDirection
+
+    def getLabelDirection(self):
+        return self.labelDirection
+
+    def setLabelDistance(self, labelDistance):
+        self.labelDistance = labelDistance
+
+    def getLabelDistance(self):
+        return self.labelDistance
+
+    def setLabelVisibility(self, isVisible):
+        self.labelIsVisible = isVisible
+
+    def getLabelVisibility(self):
+        return self.labelIsVisible
+
+    def __str__(self):
+        x,y = self.getCoordinates()
+        return f"Point ({x}, {y})"
+    
+    def setVisibility(self, isVisible):
+        self.isVisible = isVisible
+
+    def isClose(self, x, y, tolerance):
+        return distanceBetweenPoints(self.x, self.y, x, y) <= tolerance
+    
+    def addChild(self, object):
+        self.childObjects.append(object)
+
+
+
+def distanceBetweenPoints(x1, y1, x2, y2):
+    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5

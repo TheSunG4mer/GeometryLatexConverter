@@ -1,7 +1,12 @@
 import unittest
 
 from Objects.Circle import Circle
+from Objects.ConstructionStrategies.CircleWithCenterAndPointConstruction import CircleWithCenterAndPointConstruction
+from Objects.ConstructionStrategies.LineOrthogonalToLineThroughPointConstruction import LineOrthogonalToLineThroughPointConstruction
+from Objects.ConstructionStrategies.PointAsCircleCircleIntersectionConstruction import PointAsCircleCircleIntersectionConstruction
 from Objects.ConstructionStrategies.PointAsMidpointConstruction import PointAsMidpointConstruction
+from Objects.ConstructionStrategies.PointDistanceFromPointAlongLineConstruction import PointDistanceFromPointAlingLineConstruction
+from Objects.ConstructionStrategies.RadicalAxisConstruction import RadicalAxisConstruction
 from Objects.Line import Line
 from Objects.Point import Point
 
@@ -208,6 +213,55 @@ class TestStringMethods(unittest.TestCase):
         B = Point(1, 3)
         X = Point(definingObjects=[A,B], constructionStrategy=PointAsMidpointConstruction())
         self.assertEqual(X.getCoordinates(), (3/2, 2))
+    
+    def test_shouldGiveRightPointFromConstruction(self):
+        A = Point(2, 1)
+        B = Point(2, 5)
+        X = Point(definingObjects=[A, B, 2], constructionStrategy=PointDistanceFromPointAlingLineConstruction())
+        self.assertEqual(X.getCoordinates(), (2, 3))
+    
+    def test_shouldGiveRightPointFromConstruction2(self):
+        A = Point(2, 1)
+        B = Point(6, 5)
+        X = Point(definingObjects=[A, B, 2], constructionStrategy=PointDistanceFromPointAlingLineConstruction())
+        self.assertEqual(X.getCoordinates(), (2 + 2 ** 0.5, 1 + 2 ** 0.5))
+    
+    def test_shouldGiveRightOrthogonalLine(self):
+        A = Point(0, 0)
+        B = Point(1, 0)
+        l1 = Line(definingObjects=[A, B], constructionStrategy=LineThroughTwoPointsConstruction())
+        l2 = Line(definingObjects=[A, l1], constructionStrategy=LineOrthogonalToLineThroughPointConstruction())
+        
+        self.assertEqual(l2.getCoefficients(), (1, 0, 0))
+
+    def test_shouldGiveRightDigagonalLineFromOrthogonalLine(self):
+        A = Point(0, 0)
+        B = Point(1, 1)
+        l1 = Line(definingObjects=[A, B], constructionStrategy=LineThroughTwoPointsConstruction())
+        l2 = Line(definingObjects=[B, l1], constructionStrategy=LineOrthogonalToLineThroughPointConstruction())
+        
+        self.assertEqual(l2.getCoefficients(), (1, 1, 2))
+
+    def test_shouldGiveVerticalLineAsRadicalAxisBetweenSimpleCircles(self):
+        A = Point(-1, 0)
+        B = Point(1, 0)
+        c1 = Circle(definingObjects=[A, B], constructionStrategy=CircleWithCenterAndPointConstruction())
+        c2 = Circle(definingObjects=[B, A], constructionStrategy=CircleWithCenterAndPointConstruction())
+        l = Line(definingObjects=[c1, c2], constructionStrategy=RadicalAxisConstruction())
+        
+        self.assertEqual(l.getCoefficients(), (1, 0, 0))
+    
+    def test_shouldGiveRightPointsAsCircleIntersections(self):
+        A = Point(-1, 0)
+        B = Point(1, 0)
+        c1 = Circle(definingObjects=[A, B], constructionStrategy=CircleWithCenterAndPointConstruction())
+        c2 = Circle(definingObjects=[B, A], constructionStrategy=CircleWithCenterAndPointConstruction())
+        X = Point(definingObjects=[c1, c2, 0], constructionStrategy=PointAsCircleCircleIntersectionConstruction())
+        Y = Point(definingObjects=[c1, c2, 1], constructionStrategy=PointAsCircleCircleIntersectionConstruction())
+        
+        self.assertEqual(X.getCoordinates(), (0, 3 ** 0.5))
+        self.assertEqual(Y.getCoordinates(), (0, - 3 ** 0.5))
+
 
 
 if __name__ == "__main__":

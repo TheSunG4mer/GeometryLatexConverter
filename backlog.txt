@@ -1,0 +1,21 @@
+
+Bugs:
+ - Sometimes lines break, when they are moved off canvas.
+ - Tolerance uses internal coordinates but should use canvas coordinates (Fixed?)
+ - Labels should work for lines and circles.
+
+Further geometric constructions:
+ - CircumCenter (Done but could be optimized)
+ - Orthocenter
+ - Lines tangent to circle through point
+
+Maybe I should add these?:
+ - Radical axis
+ - Radical center
+ - EulerLine
+ - Nine point circle
+
+Interact with objects:
+ - Thickness
+
+Points snap to lines/circles.
