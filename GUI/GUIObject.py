@@ -1,5 +1,7 @@
+import datetime
 import tkinter
 
+from GUI import ExportHelper
 from GUI.tools.AngleBisectorTool import AngleBisectorTool
 from GUI.tools.CircleCircleIntersectionTool import CircleCircleIntersectionTool
 from GUI.tools.CircleFromCenterAndPointTool import CircleFromCenterAndPointTool
@@ -39,6 +41,7 @@ LABEL_DISTANCE = 15
 class GUI:
     def do_clear(self):
         self.objects.clear()
+        self.clearSelectedObjects()
         self.redraw()
 
     def do_click(self, event):
@@ -225,8 +228,6 @@ class GUI:
 
     def redraw(self):
         self.canvas.delete('all')
-        
-
         for boolVar in [False, True]:
             for objType in [Circle, Line, Point]:
                 for obj in self.objects:
@@ -242,18 +243,8 @@ class GUI:
                             self.drawCircleObject(obj)
 
     def export_to_tikz(self):
-        filename = "output.tex"
-        with open(filename, "w") as file:
-            file.write("\\documentclass{standalone}\n")
-            file.write("\\usepackage{tikz}\n")
-            file.write("\\begin{document}\n")
-            file.write("\\begin{tikzpicture}\n")
-            for obj in self.objects:
-                if obj.exists():
-                    pass
-            file.write("\\end{tikzpicture}\n")
-            file.write("\\end{document}\n")
-        print(f"Exported to {filename}")
+        ExportHelper.convert_picture_to_tikz(self) # Delegate this to ExportHelper
+        
 
     def create_menu(self):
         menubar = tkinter.Menu(self.root)
@@ -380,6 +371,9 @@ class GUI:
 
     def getSelectedObjectsTally(self):
         return self.selectedObjectsTally
+
+    def getObjects(self):
+        return self.objects
 
     def setColor(self, color):
         for object in self.selectedObjects:
